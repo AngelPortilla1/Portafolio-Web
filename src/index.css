@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #F0F5FA;
+  color: #1A1F2E;
+  line-height: 1.6;
+}
+
+/* ── HERO NAME GRADIENT TEXT ── */
+.hero-name-gradient {
+  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── EYEBROW METALLIC LINE ── */
+.eyebrow-line::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  vertical-align: middle;
+  margin-right: 0.75rem;
+}
+
+/* ── CARD LABEL METALLIC LINE ── */
+.card-label-line::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+/* ── METAL DIVIDER ── */
+.metal-divider {
+  height: 1px;
+  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  opacity: 0.4;
+  margin: 0 auto 4rem;
+  max-width: 200px;
+  border-radius: 1px;
+}
+
+/* ── SEARCH ICON ── */
+.search-wrap {
+  position: relative;
+  flex: 1;
+}
+.search-wrap::before {
+  content: '⌕';
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8899AA;
+  font-size: 1.1rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── ENTRY TIMELINE LINE ── */
+.entry-line {
+  width: 1px;
+  flex: 1;
+  min-height: 40px;
+  background: linear-gradient(to bottom, #8BA3C7, transparent);
+  margin-top: 4px;
+}
+
+/* ── TOOLTIP LEVEL DOTS ── */
+.level-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.level-dot.filled { background: #4A7FC1; }
+.level-dot.empty  { background: #D1DCE8; }
+
+/* ── GRAPH CANVAS ── */
+.graph-canvas {
+  width: 100%;
+  height: 450px;
+  display: block;
+}
+
+/* ── BADGE VARIANTS ── */
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.badge-blue   { background: #DBEAFE; color: #1D4ED8; }
+.badge-green  { background: #D1FAE5; color: #065F46; }
+.badge-purple { background: #EDE9FE; color: #5B21B6; }
+.badge-orange { background: #FEF3C7; color: #92400E; }
