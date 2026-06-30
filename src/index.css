@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS VARIABLES: PALETA PRINCIPAL ── */
+:root {
+  --color-1: #b0c4e8;  /* azul claro  */
+  --color-2: #8a9bb7;  /* azul medio  */
+  --color-3: #697a9b;  /* azul gris   */
+  --color-4: #4a5c78;  /* azul oscuro (acento) */
+  --color-5: #2b3d4f;  /* navy (texto principal) */
+}
+
 /* ── RESET ── */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -14,14 +23,35 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #F0F5FA;
-  color: #1A1F2E;
+  /* Gradiente animado con tonos de la paleta nueva */
+  background: linear-gradient(
+    -45deg,
+    #eef3fb,
+    #d8e4f5,
+    #c6d6ed,
+    #dce8f5,
+    #eaf0fa,
+    #d0dff0
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
+  color: var(--color-5);
   line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── ANIMATED BACKGROUND GRADIENT ── */
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  25%  { background-position: 100% 50%; }
+  50%  { background-position: 100%  0%; }
+  75%  { background-position:   0% 100%; }
+  100% { background-position: 0%   50%; }
 }
 
 /* ── HERO NAME GRADIENT TEXT ── */
 .hero-name-gradient {
-  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -33,7 +63,7 @@ body {
   display: inline-block;
   width: 32px;
   height: 1px;
-  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
   vertical-align: middle;
   margin-right: 0.75rem;
 }
@@ -44,7 +74,7 @@ body {
   display: inline-block;
   width: 16px;
   height: 2px;
-  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
+  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
   border-radius: 2px;
   vertical-align: middle;
   margin-right: 0.5rem;
@@ -53,8 +83,8 @@ body {
 /* ── METAL DIVIDER ── */
 .metal-divider {
   height: 1px;
-  background: linear-gradient(135deg, #8BA3C7 0%, #C4D4E8 50%, #7A9AB8 100%);
-  opacity: 0.4;
+  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
+  opacity: 0.5;
   margin: 0 auto 4rem;
   max-width: 200px;
   border-radius: 1px;
@@ -71,7 +101,7 @@ body {
   left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #8899AA;
+  color: var(--color-3);
   font-size: 1.1rem;
   z-index: 1;
   pointer-events: none;
@@ -82,7 +112,7 @@ body {
   width: 1px;
   flex: 1;
   min-height: 40px;
-  background: linear-gradient(to bottom, #8BA3C7, transparent);
+  background: linear-gradient(to bottom, var(--color-2), transparent);
   margin-top: 4px;
 }
 
@@ -92,8 +122,8 @@ body {
   height: 8px;
   border-radius: 50%;
 }
-.level-dot.filled { background: #4A7FC1; }
-.level-dot.empty  { background: #D1DCE8; }
+.level-dot.filled { background: var(--color-4); }
+.level-dot.empty  { background: var(--color-1); }
 
 /* ── GRAPH CANVAS ── */
 .graph-canvas {
@@ -112,7 +142,8 @@ body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-.badge-blue   { background: #DBEAFE; color: #1D4ED8; }
-.badge-green  { background: #D1FAE5; color: #065F46; }
-.badge-purple { background: #EDE9FE; color: #5B21B6; }
-.badge-orange { background: #FEF3C7; color: #92400E; }
+/* Badges recoloreados con la paleta nueva */
+.badge-blue   { background: #dce8f5; color: var(--color-5); }
+.badge-green  { background: #cddeed; color: #1c4a3a; }
+.badge-purple { background: #dbd6f0; color: #3d2d6e; }
+.badge-orange { background: #f0e6cc; color: #7a4a10; }

@@ -29,7 +29,7 @@ export default function TechGraph() {
         .attr("id", `react-grad-${n.id}`)
         .attr("cx", "35%").attr("cy", "35%");
       const c = graphData.groupColors[n.group];
-      grad.append("stop").attr("offset", "0%").attr("stop-color", "#D4E4F4");
+      grad.append("stop").attr("offset", "0%").attr("stop-color", "#d8e4f5");
       grad.append("stop").attr("offset", "40%").attr("stop-color", c.fill);
       grad.append("stop").attr("offset", "100%").attr("stop-color", c.stroke);
     });
@@ -47,7 +47,7 @@ export default function TechGraph() {
       .selectAll("line")
       .data(links_copy)
       .join("line")
-      .attr("stroke", "#C4D4E8")
+      .attr("stroke", "#b0c4e8")
       .attr("stroke-width", 1.5)
       .attr("stroke-opacity", 0.7);
 
@@ -108,7 +108,7 @@ export default function TechGraph() {
 
         d3.select(event.currentTarget).select("circle")
           .attr("stroke-width", 3)
-          .attr("stroke", "#4A7FC1");
+          .attr("stroke", "#4a5c78");
       })
       .on("mousemove", (event) => {
         if (!tooltip) return;

@@ -98,12 +98,12 @@ export const graphData = {
     { source: 12, target: 13}, { source: 12, target: 14},
   ],
   groupColors: {
-    core:     { fill: "#4A7FC1", stroke: "#2A5F9E" },
-    frontend: { fill: "#6BA3D6", stroke: "#4A83B6" },
-    backend:  { fill: "#7A9FC0", stroke: "#5A7FA0" },
-    db:       { fill: "#8BAFC8", stroke: "#6B8FA8" },
-    graph:    { fill: "#3A6FA8", stroke: "#1A4F88" },
-    devops:   { fill: "#9BB5CC", stroke: "#7B95AC" }
+    core:     { fill: "#4a5c78", stroke: "#2b3d4f" },  /* color-4 / color-5 */
+    frontend: { fill: "#8a9bb7", stroke: "#697a9b" },  /* color-2 / color-3 */
+    backend:  { fill: "#697a9b", stroke: "#4a5c78" },  /* color-3 / color-4 */
+    db:       { fill: "#b0c4e8", stroke: "#8a9bb7" },  /* color-1 / color-2 */
+    graph:    { fill: "#2b3d4f", stroke: "#1e2d3b" },  /* color-5 / darker  */
+    devops:   { fill: "#8a9bb7", stroke: "#4a5c78" }   /* color-2 / color-4 */
   }
 };
 
