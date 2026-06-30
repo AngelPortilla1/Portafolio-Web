@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { CircleStackIcon } from '@heroicons/react/24/outline';
 import { graphData } from '../data/portfolioData';
 
 export default function TechGraph() {
@@ -140,25 +141,25 @@ export default function TechGraph() {
     <section id="stack" className="py-24 px-8 max-w-[1000px] mx-auto">
       {/* Section header */}
       <div className="mb-10">
-        <div className="font-mono text-[0.72rem] text-metal-500 tracking-[0.14em] uppercase mb-2">
+        <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
           // TECH_GRAPH
         </div>
-        <h2 className="text-[1.8rem] font-bold tracking-[-0.02em] text-metal-900">
+        <h2 className="text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
           Mi Stack Tecnológico
         </h2>
       </div>
 
       {/* Graph container */}
-      <div className="bg-white border border-steel-100 rounded-xl overflow-hidden shadow-card relative" ref={containerRef}>
+      <div className="bg-[#1e2d3b] border border-metal-700/60 rounded-xl overflow-hidden shadow-card relative" ref={containerRef}>
         {/* Graph header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-steel-100 bg-metal-50">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-metal-700/60 bg-[#1a2a38]">
           <div className="flex items-center gap-3">
-            <span className="text-base">🔗</span>
-            <span className="font-mono text-[0.8rem] font-semibold text-metal-900 uppercase tracking-[0.08em]">
+            <CircleStackIcon className="w-5 h-5 text-metal-400" />
+            <span className="font-mono text-[0.8rem] font-semibold text-metal-200 uppercase tracking-[0.08em]">
               Grafo de Tecnologías
             </span>
           </div>
-          <span className="font-mono text-[0.72rem] text-steel-400">
+          <span className="font-mono text-[0.72rem] text-metal-500">
             Hover sobre un nodo para ver detalles
           </span>
         </div>
@@ -167,11 +168,11 @@ export default function TechGraph() {
 
         {/* Tooltip */}
         <div
-          className="absolute bg-white border border-metal-300 rounded-lg px-4 py-3 shadow-card-hover pointer-events-none opacity-0 transition-opacity duration-150 z-10 min-w-[150px]"
+          className="absolute bg-[#1e2d3b] border border-metal-600/60 rounded-lg px-4 py-3 shadow-card-hover pointer-events-none opacity-0 transition-opacity duration-150 z-10 min-w-[150px]"
           ref={tooltipRef}
         >
-          <div className="font-mono text-[0.82rem] font-semibold text-metal-900 mb-1" id="tip-name" />
-          <div className="text-[0.7rem] text-steel-400 uppercase tracking-[0.08em] mb-1" id="tip-cat" />
+          <div className="font-mono text-[0.82rem] font-semibold text-metal-100 mb-1" id="tip-name" />
+          <div className="text-[0.7rem] text-metal-400 uppercase tracking-[0.08em] mb-1" id="tip-cat" />
           <div className="flex gap-1 mt-1" id="tip-level" />
         </div>
       </div>
