@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { personalInfo } from '../data/portfolioData';
-import heroAvatar from '../assets/hero-avatar.png';
+import GhostPhoto from '../assets/GhostPhoto.png';
 
 export default function Hero() {
   return (
@@ -39,14 +39,14 @@ export default function Hero() {
           <div className="flex gap-4 flex-wrap max-md:justify-center">
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 px-7 py-3 bg-metal-500 text-white text-[0.85rem] font-semibold rounded-md tracking-[0.03em] no-underline transition-all duration-200 hover:bg-metal-400 hover:-translate-y-px hover:shadow-accent"
+              className="inline-flex items-center gap-2 px-7 py-3 bg-[#34d399] text-[#111d27] text-[0.85rem] font-bold rounded-md tracking-[0.03em] no-underline transition-all duration-200 hover:bg-[#6ee7b7] hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(52,211,153,0.4)]"
             >
               Ver proyectos
             </a>
             <a
               href="/cv.pdf"
               download
-              className="inline-flex items-center gap-2 px-7 py-3 bg-transparent text-metal-200 border border-metal-500 text-[0.85rem] font-medium rounded-md no-underline transition-all duration-200 hover:border-metal-300 hover:text-white hover:bg-metal-500/20"
+              className="inline-flex items-center gap-2 px-7 py-3 bg-transparent text-[#34d399] border border-[#34d399]/50 text-[0.85rem] font-medium rounded-md no-underline transition-all duration-200 hover:border-[#34d399] hover:bg-[#34d399]/10 hover:text-[#6ee7b7]"
             >
               <ArrowDownTrayIcon className="w-4 h-4" />
               Descargar CV
@@ -54,10 +54,10 @@ export default function Hero() {
           </div>
 
           {/* Stats */}
-          <div className="flex gap-10 mt-14 pt-8 border-t border-metal-700 flex-wrap max-md:justify-center">
+          <div className="flex gap-10 mt-14 pt-8 border-t border-[#34d399]/20 flex-wrap max-md:justify-center">
             {personalInfo.stats.map((stat, idx) => (
               <div key={idx} className="flex flex-col">
-                <span className="font-mono text-[1.6rem] font-semibold text-metal-200">
+                <span className="font-mono text-[1.6rem] font-semibold text-[#34d399]">
                   {stat.num}
                 </span>
                 <span className="text-[0.72rem] text-metal-400 uppercase tracking-[0.08em] mt-1">
@@ -76,7 +76,7 @@ export default function Hero() {
             {/* Photo card */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden border border-metal-600/50 shadow-[0_0_40px_rgba(74,92,120,0.3)]">
               <img
-                src={heroAvatar}
+                src={GhostPhoto}
                 alt="Angel Portilla — Developer"
                 className="w-full h-full object-cover object-center grayscale contrast-110"
               />

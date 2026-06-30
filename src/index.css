@@ -7,8 +7,10 @@
   --color-1: #b0c4e8;  /* azul claro  */
   --color-2: #8a9bb7;  /* azul medio  */
   --color-3: #697a9b;  /* azul gris   */
-  --color-4: #4a5c78;  /* azul oscuro (acento) */
-  --color-5: #2b3d4f;  /* navy (texto principal) */
+  --color-4: #4a5c78;  /* azul oscuro (acento base) */
+  --color-5: #2b3d4f;  /* navy */
+  --accent:  #34d399;  /* verde esmeralda — color acento principal */
+  --accent-bright: #6ee7b7; /* verde claro para hovers */
 }
 
 /* ── RESET ── */
@@ -38,7 +40,7 @@ body {
 
 /* ── HERO NAME GRADIENT TEXT ── */
 .hero-name-gradient {
-  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-bright) 45%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -50,7 +52,7 @@ body {
   display: inline-block;
   width: 32px;
   height: 1px;
-  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-bright) 100%);
   vertical-align: middle;
   margin-right: 0.75rem;
 }
@@ -61,7 +63,7 @@ body {
   display: inline-block;
   width: 16px;
   height: 2px;
-  background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-4) 100%);
+  background: var(--accent);
   border-radius: 2px;
   vertical-align: middle;
   margin-right: 0.5rem;
@@ -98,8 +100,8 @@ body {
   height: 8px;
   border-radius: 50%;
 }
-.level-dot.filled { background: var(--color-4); }
-.level-dot.empty  { background: var(--color-1); }
+.level-dot.filled { background: var(--accent); }
+.level-dot.empty  { background: var(--color-4); opacity: 0.4; }
 
 /* ── GRAPH CANVAS ── */
 .graph-canvas {

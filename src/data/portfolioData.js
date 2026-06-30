@@ -98,7 +98,7 @@ export const graphData = {
     { source: 12, target: 13}, { source: 12, target: 14},
   ],
   groupColors: {
-    core:     { fill: "#4a5c78", stroke: "#2b3d4f" },  /* color-4 / color-5 */
+    core:     { fill: "#34d399", stroke: "#10b981" },  /* verde acento — nodo principal */
     frontend: { fill: "#8a9bb7", stroke: "#697a9b" },  /* color-2 / color-3 */
     backend:  { fill: "#697a9b", stroke: "#4a5c78" },  /* color-3 / color-4 */
     db:       { fill: "#b0c4e8", stroke: "#8a9bb7" },  /* color-1 / color-2 */
