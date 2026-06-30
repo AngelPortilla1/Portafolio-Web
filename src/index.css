@@ -23,30 +23,17 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  /* Gradiente animado con tonos de la paleta nueva */
-  background: linear-gradient(
-    -45deg,
-    #eef3fb,
-    #d8e4f5,
-    #c6d6ed,
-    #dce8f5,
-    #eaf0fa,
-    #d0dff0
+  /* Fondo sólido suave con patrón de puntos sutiles */
+  background-color: #eef3fb;
+  background-image: radial-gradient(
+    circle,
+    #b0c4e8 1px,
+    transparent 1px
   );
-  background-size: 400% 400%;
-  animation: gradientShift 18s ease infinite;
+  background-size: 28px 28px;
   color: var(--color-5);
   line-height: 1.6;
   min-height: 100vh;
-}
-
-/* ── ANIMATED BACKGROUND GRADIENT ── */
-@keyframes gradientShift {
-  0%   { background-position: 0%   50%; }
-  25%  { background-position: 100% 50%; }
-  50%  { background-position: 100%  0%; }
-  75%  { background-position:   0% 100%; }
-  100% { background-position: 0%   50%; }
 }
 
 /* ── HERO NAME GRADIENT TEXT ── */
