@@ -1,5 +1,5 @@
 import React from 'react';
-import { CodeBracketIcon } from '@heroicons/react/24/outline';
+import LogoAP from '../assets/LogoAP.png';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Navbar() {
@@ -9,7 +9,7 @@ export default function Navbar() {
         href="#hero"
         className="flex items-center gap-2 font-mono text-[0.85rem] font-semibold text-metal-200 tracking-[0.05em] no-underline"
       >
-        <CodeBracketIcon className="w-4 h-4 text-metal-400" />
+        <img src={LogoAP} alt="Logo" className="h-8 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
         {personalInfo.logo}
       </a>
       <ul className="flex gap-8 list-none">
