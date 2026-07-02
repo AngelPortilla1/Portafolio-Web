@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { personalInfo } from '../data/portfolioData';
 import GhostPhoto from '../assets/GhostPhoto.png';
+import ColorPhoto from '../assets/ColorPhoto.png';
 
 export default function Hero() {
   return (
@@ -73,18 +74,28 @@ export default function Hero() {
           <div className="group relative w-[360px] h-[420px] max-sm:w-[260px] max-sm:h-[300px] cursor-pointer">
             {/* Glow behind – intensifies on hover */}
             <div className="absolute inset-0 rounded-2xl bg-metal-500/20 blur-2xl scale-90 translate-y-4 transition-all duration-700 group-hover:bg-[#34d399]/20 group-hover:blur-3xl group-hover:scale-95" />
+
             {/* Photo card */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden border border-metal-600/50 shadow-[0_0_40px_rgba(74,92,120,0.3)] transition-all duration-700 group-hover:border-[#34d399]/60 group-hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
+
+              {/* GhostPhoto — visible por defecto, desvanece en hover */}
               <img
                 src={GhostPhoto}
                 alt="Angel Portilla — Developer"
-                className="w-full h-full object-cover object-center grayscale contrast-110 transition-all duration-700 ease-in-out group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-[1.03]"
+                className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ease-in-out opacity-100 group-hover:opacity-0"
               />
-              {/* Subtle gradient overlay at bottom */}
-              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#111d27] to-transparent" />
-              {/* Color reveal hint – fades out on hover */}
-              <div className="absolute inset-0 bg-[#111d27]/10 transition-opacity duration-700 group-hover:opacity-0" />
+
+              {/* ColorPhoto — oculta por defecto, aparece en hover */}
+              <img
+                src={ColorPhoto}
+                alt="Angel Portilla — Developer color"
+                className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100 scale-[1.03]"
+              />
+
+              {/* Gradient overlay at bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#111d27] to-transparent z-10" />
             </div>
+
             {/* Tooltip label */}
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 font-mono text-[0.65rem] text-[#34d399]/70 tracking-[0.15em] uppercase opacity-0 transition-opacity duration-500 group-hover:opacity-100 whitespace-nowrap">
               ✦ Color reveal
