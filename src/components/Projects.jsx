@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   FolderOpenIcon,
   CogIcon,
@@ -203,11 +203,11 @@ export default function Projects() {
                     {proj.demoUrl && (
                       <a
                         href={proj.demoUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-metal-500 text-white no-underline transition-colors duration-150 hover:bg-metal-400"
+                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold px-3.5 py-1.5 rounded bg-[#34d399] text-[#111d27] no-underline transition-all duration-150 hover:bg-[#6ee7b7] hover:shadow-[0_0_12px_rgba(52,211,153,0.45)]"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-[#111d27] stroke-[2.5px]" />
                         Ver demo
                       </a>
                     )}
