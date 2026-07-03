@@ -45,7 +45,7 @@ export default function Hero() {
               Ver proyectos
             </a>
             <a
-              href="/cv.pdf"
+              href="/Cv_AngelPortilla.pdf"
               download
               className="inline-flex items-center gap-2 px-7 py-3 bg-transparent text-[#34d399] border border-[#34d399]/50 text-[0.85rem] font-medium rounded-md no-underline transition-all duration-200 hover:border-[#34d399] hover:bg-[#34d399]/10 hover:text-[#6ee7b7]"
             >

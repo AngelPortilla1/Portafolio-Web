@@ -69,23 +69,23 @@ export const projectsData = [
 
 export const graphData = {
   nodes: [
-    { id: 0,  name: "Full Stack",   category: "Perfil",         level: 5, group: "core",     r: 28 },
-    { id: 1,  name: "React",        category: "Frontend",       level: 4, group: "frontend",  r: 20 },
-    { id: 2,  name: "HTML/CSS",     category: "Frontend",       level: 5, group: "frontend",  r: 18 },
-    { id: 3,  name: "JavaScript",   category: "Frontend",       level: 4, group: "frontend",  r: 20 },
-    { id: 4,  name: "Angular",      category: "Frontend",       level: 3, group: "frontend",  r: 16 },
-    { id: 5,  name: "Vite",         category: "Frontend",       level: 4, group: "frontend",  r: 15 },
-    { id: 6,  name: "Python",       category: "Backend",        level: 4, group: "backend",   r: 20 },
-    { id: 7,  name: "FastAPI",      category: "Backend",        level: 4, group: "backend",   r: 18 },
-    { id: 8,  name: "NestJS",       category: "Backend",        level: 3, group: "backend",   r: 16 },
-    { id: 9,  name: "Node.js",      category: "Backend",        level: 3, group: "backend",   r: 16 },
-    { id: 10, name: "SQL",          category: "Base de Datos",  level: 4, group: "db",        r: 17 },
-    { id: 11, name: "SQLite",       category: "Base de Datos",  level: 3, group: "db",        r: 15 },
-    { id: 12, name: "Git",          category: "DevOps",         level: 5, group: "devops",    r: 18 },
-    { id: 13, name: "GitHub",       category: "DevOps",         level: 5, group: "devops",    r: 18 },
-    { id: 14, name: "Figma",        category: "Diseño",         level: 3, group: "devops",    r: 15 },
-    { id: 15, name: "Multi-Agent",  category: "IA",             level: 4, group: "graph",     r: 20 },
-    { id: 16, name: "Gen AI / LLM", category: "IA",             level: 3, group: "graph",     r: 17 },
+    { id: 0,  name: "Full Stack",   category: "Perfil",         level: 5, group: "core",     r: 28, description: "Perfil profesional principal. Desarrollo integral de aplicaciones web, desde la interfaz hasta el servidor." },
+    { id: 1,  name: "React",        category: "Frontend",       level: 4, group: "frontend",  r: 20, description: "Librería principal para construir interfaces de usuario dinámicas y componentes reutilizables." },
+    { id: 2,  name: "HTML/CSS",     category: "Frontend",       level: 5, group: "frontend",  r: 18, description: "Fundamentos de la web. Estructura semántica y estilos responsive con técnicas modernas." },
+    { id: 3,  name: "JavaScript",   category: "Frontend",       level: 4, group: "frontend",  r: 20, description: "Lenguaje core del desarrollo web. ES6+, async/await, manipulación del DOM y más." },
+    { id: 4,  name: "Angular",      category: "Frontend",       level: 3, group: "frontend",  r: 16, description: "Framework de frontend con TypeScript para aplicaciones empresariales estructuradas." },
+    { id: 5,  name: "Vite",         category: "Frontend",       level: 4, group: "frontend",  r: 15, description: "Herramienta de build ultrarrápida para proyectos modernos con Hot Module Replacement." },
+    { id: 6,  name: "Python",       category: "Backend",        level: 4, group: "backend",   r: 20, description: "Lenguaje versátil para backend, scripting, análisis de datos e inteligencia artificial." },
+    { id: 7,  name: "FastAPI",      category: "Backend",        level: 4, group: "backend",   r: 18, description: "Framework Python de alto rendimiento para construir APIs REST con validación automática." },
+    { id: 8,  name: "NestJS",       category: "Backend",        level: 3, group: "backend",   r: 16, description: "Framework Node.js con arquitectura modular inspirada en Angular para APIs escalables." },
+    { id: 9,  name: "Node.js",      category: "Backend",        level: 3, group: "backend",   r: 16, description: "Entorno de ejecución JavaScript en el servidor para aplicaciones en tiempo real." },
+    { id: 10, name: "SQL",          category: "Base de Datos",  level: 4, group: "db",        r: 17, description: "Lenguaje estándar para consultas y gestión de bases de datos relacionales." },
+    { id: 11, name: "SQLite",       category: "Base de Datos",  level: 3, group: "db",        r: 15, description: "Base de datos ligera embebida, ideal para prototipos y aplicaciones pequeñas." },
+    { id: 12, name: "Git",          category: "DevOps",         level: 5, group: "devops",    r: 18, description: "Control de versiones distribuido. Branching, merging y colaboración en equipo." },
+    { id: 13, name: "GitHub",       category: "DevOps",         level: 5, group: "devops",    r: 18, description: "Plataforma de desarrollo colaborativo, CI/CD y gestión de repositorios." },
+    { id: 14, name: "Figma",        category: "Diseño",         level: 3, group: "devops",    r: 15, description: "Herramienta de diseño UI/UX colaborativa para prototipos y sistemas de diseño." },
+    { id: 15, name: "Multi-Agent",  category: "IA",             level: 4, group: "graph",     r: 20, description: "Arquitecturas de sistemas multiagente inteligentes para investigación aplicada." },
+    { id: 16, name: "Gen AI / LLM", category: "IA",             level: 3, group: "graph",     r: 17, description: "Modelos de lenguaje generativo e inteligencia artificial para soluciones innovadoras." },
   ],
   links: [
     { source: 0, target: 1  }, { source: 0, target: 3  }, { source: 0, target: 6  },
@@ -98,12 +98,12 @@ export const graphData = {
     { source: 12, target: 13}, { source: 12, target: 14},
   ],
   groupColors: {
-    core:     { fill: "#34d399", stroke: "#10b981" },  /* verde acento — nodo principal */
-    frontend: { fill: "#8a9bb7", stroke: "#697a9b" },  /* color-2 / color-3 */
-    backend:  { fill: "#697a9b", stroke: "#4a5c78" },  /* color-3 / color-4 */
-    db:       { fill: "#b0c4e8", stroke: "#8a9bb7" },  /* color-1 / color-2 */
-    graph:    { fill: "#2b3d4f", stroke: "#1e2d3b" },  /* color-5 / darker  */
-    devops:   { fill: "#8a9bb7", stroke: "#4a5c78" }   /* color-2 / color-4 */
+    core:     { fill: "#34d399", stroke: "#10b981", label: "Perfil" },
+    frontend: { fill: "#8a9bb7", stroke: "#697a9b", label: "Frontend" },
+    backend:  { fill: "#697a9b", stroke: "#4a5c78", label: "Backend" },
+    db:       { fill: "#b0c4e8", stroke: "#8a9bb7", label: "Base de Datos" },
+    graph:    { fill: "#2b3d4f", stroke: "#1e2d3b", label: "IA" },
+    devops:   { fill: "#8a9bb7", stroke: "#4a5c78", label: "DevOps" }
   }
 };
 

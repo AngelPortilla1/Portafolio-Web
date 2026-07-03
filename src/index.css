@@ -103,11 +103,20 @@ body {
 .level-dot.filled { background: var(--accent); }
 .level-dot.empty  { background: var(--color-4); opacity: 0.4; }
 
-/* ── GRAPH CANVAS ── */
+/* ── GRAPH CANVAS (force-graph container) ── */
 .graph-canvas {
   width: 100%;
   height: 450px;
   display: block;
+}
+
+/* ── TECH PANEL slide-in ── */
+@keyframes tech-panel-slide-in {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.tech-panel-enter {
+  animation: tech-panel-slide-in 0.3s ease forwards;
 }
 
 /* ── BADGE VARIANTS ── */
