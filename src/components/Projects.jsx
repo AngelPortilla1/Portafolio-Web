@@ -72,10 +72,10 @@ export default function Projects() {
       </div>
 
       {/* LOG CONTAINER */}
-      <div className="bg-[#1a2a38] border border-metal-700/60 rounded-xl overflow-hidden shadow-card">
+      <div className="bg-metal-800 border border-metal-700/60 rounded-xl overflow-hidden shadow-card transition-colors duration-300">
 
         {/* Log header */}
-        <div className="flex items-center justify-between px-5 py-3.5 bg-[#1e2d3b] border-b border-metal-700/60">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-metal-800 border-b border-metal-700/60">
           <div className="flex items-center gap-3">
             <FolderOpenIcon className="w-5 h-5 text-metal-400" />
             <span className="font-mono text-[0.8rem] font-semibold text-metal-200 uppercase tracking-[0.08em]">
@@ -88,12 +88,12 @@ export default function Projects() {
         </div>
 
         {/* Search + nav bar */}
-        <div className="flex items-center gap-3 px-5 py-3 border-b border-metal-700/60 bg-[#1a2a38]">
+        <div className="flex items-center gap-3 px-5 py-3 border-b border-metal-700/60 bg-metal-800">
           <div className="flex-1 relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-metal-500 pointer-events-none z-10" />
             <input
               type="text"
-              className="w-full bg-[#111d27] border border-metal-700/60 rounded-md py-2.5 pl-9 pr-3 font-mono text-[0.8rem] text-metal-200 transition-all duration-200 outline-none focus:border-metal-500 placeholder:text-metal-600"
+              className="w-full bg-metal-900 border border-metal-700/60 rounded-md py-2.5 pl-9 pr-3 font-mono text-[0.8rem] text-metal-200 transition-all duration-200 outline-none focus:border-metal-500 placeholder:text-metal-600"
               placeholder="Buscar proyecto, tecnologia..."
               value={searchTerm}
               onChange={handleSearch}
@@ -102,7 +102,7 @@ export default function Projects() {
           <button
             onClick={prev}
             disabled={filtered.length <= 1}
-            className="flex items-center justify-center w-9 h-9 rounded-md bg-[#111d27] border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[#34d399]/50 hover:text-[#34d399] disabled:opacity-30 disabled:cursor-not-allowed"
+            className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed"
             aria-label="Anterior"
           >
             <ChevronLeftIcon className="w-4 h-4" />
@@ -110,7 +110,7 @@ export default function Projects() {
           <button
             onClick={next}
             disabled={filtered.length <= 1}
-            className="flex items-center justify-center w-9 h-9 rounded-md bg-[#111d27] border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[#34d399]/50 hover:text-[#34d399] disabled:opacity-30 disabled:cursor-not-allowed"
+            className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed"
             aria-label="Siguiente"
           >
             <ChevronRightIcon className="w-4 h-4" />
@@ -142,8 +142,8 @@ export default function Projects() {
               {/* Entry header */}
               <div className="flex items-center gap-2.5 mb-3 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full border-2 border-[#34d399] bg-[#34d399]/20 flex-shrink-0" />
-                  <span className="font-mono text-[0.7rem] text-metal-500 bg-[#111d27] px-2 py-0.5 rounded border border-metal-700/60">
+                  <div className="w-2.5 h-2.5 rounded-full border-2 border-[var(--accent)] bg-[rgba(var(--accent-rgb),0.2)] flex-shrink-0" />
+                  <span className="font-mono text-[0.7rem] text-metal-500 bg-metal-900 px-2 py-0.5 rounded border border-metal-700/60">
                     {proj.hash}
                   </span>
                 </div>
@@ -178,7 +178,7 @@ export default function Projects() {
 
                 {/* Right panel */}
                 <div className="flex flex-col gap-3">
-                  <div className="bg-[#111d27] border border-metal-700/60 rounded-md px-4 py-3 flex-1">
+                  <div className="bg-metal-900 border border-metal-700/60 rounded-md px-4 py-3 flex-1">
                     <div className="font-mono text-[0.68rem] font-semibold text-metal-500 uppercase tracking-[0.1em] mb-1.5 flex items-center gap-1.5">
                       <DocumentTextIcon className="w-3.5 h-3.5" />
                       DESCRIPCION:
@@ -192,7 +192,7 @@ export default function Projects() {
                     {proj.tags.map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="font-mono text-[0.68rem] px-2.5 py-1 bg-[#111d27] border border-metal-700/60 rounded text-metal-400"
+                        className="font-mono text-[0.68rem] px-2.5 py-1 bg-metal-900 border border-metal-700/60 rounded text-metal-400"
                       >
                         {tag}
                       </span>
@@ -203,18 +203,18 @@ export default function Projects() {
                     {proj.demoUrl && (
                       <a
                         href={proj.demoUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold px-3.5 py-1.5 rounded bg-[#34d399] text-[#111d27] no-underline transition-all duration-150 hover:bg-[#6ee7b7] hover:shadow-[0_0_12px_rgba(52,211,153,0.45)]"
+                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold px-3.5 py-1.5 rounded bg-[var(--accent)] text-[var(--accent-on)] no-underline transition-all duration-150 hover:bg-[var(--accent-bright)] hover:shadow-[0_0_12px_rgba(var(--accent-rgb),0.45)]"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-[#111d27] stroke-[2.5px]" />
+                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 stroke-[2.5px]" />
                         Ver demo
                       </a>
                     )}
                     {proj.paperUrl && (
                       <a
                         href={proj.paperUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-metal-500 text-white no-underline transition-colors duration-150 hover:bg-metal-400"
+                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-metal-500 text-metal-900 no-underline transition-colors duration-150 hover:bg-metal-400"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -225,7 +225,7 @@ export default function Projects() {
                     {proj.githubUrl && (
                       <a
                         href={proj.githubUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-[#1e2d3b] border border-metal-600/60 text-metal-300 no-underline transition-all duration-150 hover:border-metal-400 hover:text-metal-100"
+                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-metal-800 border border-metal-600/60 text-metal-300 no-underline transition-all duration-150 hover:border-metal-400 hover:text-metal-100"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -249,7 +249,7 @@ export default function Projects() {
                 onClick={() => goTo(idx, idx > current ? "right" : "left")}
                 className={`transition-all duration-300 rounded-full ${
                   idx === current
-                    ? "w-6 h-2 bg-[#34d399]"
+                    ? "w-6 h-2 bg-[var(--accent)]"
                     : "w-2 h-2 bg-metal-600 hover:bg-metal-400"
                 }`}
                 aria-label={`Ir al proyecto ${idx + 1}`}

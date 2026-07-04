@@ -3,9 +3,17 @@ import ForceGraph2D from 'react-force-graph-2d';
 import { forceCollide } from 'd3-force-3d';
 import { CircleStackIcon, XMarkIcon, FunnelIcon, CursorArrowRaysIcon } from '@heroicons/react/24/outline';
 import { graphData } from '../data/portfolioData';
+import { useTheme } from '../context/ThemeContext';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
-const groupStyle = (group) => graphData.groupColors[group] ?? graphData.groupColors.frontend;
+
+/** Compute perceived luminance to determine if a fill color is dark */
+function isColorDark(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return (r * 0.299 + g * 0.587 + b * 0.114) < 140;
+}
 
 // ─── SkillMeter: barra de nivel visual ───────────────────────────────────────
 function SkillMeter({ level, max = 5, color = '#34d399' }) {
@@ -26,9 +34,9 @@ function SkillMeter({ level, max = 5, color = '#34d399' }) {
 }
 
 // ─── Renderizado de nodo canvas ──────────────────────────────────────────────
-function drawNode(node, ctx, globalScale, selectedId) {
+function drawNode(node, ctx, globalScale, selectedId, colors) {
   const r = node.__r ?? 14;
-  const gs = groupStyle(node.group);
+  const gs = colors[node.group] ?? colors.frontend;
   const isSelected = node.id === selectedId;
 
   // Halo de selección
@@ -62,20 +70,19 @@ function drawNode(node, ctx, globalScale, selectedId) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  // Text color: use white for dark fills, dark for light fills
-  const isDarkFill = gs.fill === '#2b3d4f' || gs.fill === '#697a9b';
-  ctx.fillStyle = isDarkFill ? '#d8e4f5' : '#111d27';
+  // Text color: auto-detect based on fill luminance
+  ctx.fillStyle = isColorDark(gs.fill) ? '#e8edf5' : '#1a1a2e';
 
   const label = node.name;
   ctx.fillText(label.length > 12 ? label.slice(0, 11) + '…' : label, node.x, node.y);
 }
 
 // ─── FilterBar ───────────────────────────────────────────────────────────────
-function FilterBar({ groups, active, onToggle }) {
+function FilterBar({ groups, active, onToggle, colors }) {
   return (
     <div className="flex gap-2 flex-wrap">
       {groups.map(g => {
-        const gs = groupStyle(g);
+        const gs = colors[g] ?? colors.frontend;
         const on = active.has(g);
         return (
           <button
@@ -101,11 +108,11 @@ function FilterBar({ groups, active, onToggle }) {
 }
 
 // ─── Legend ───────────────────────────────────────────────────────────────────
-function Legend({ groups }) {
+function Legend({ groups, colors }) {
   return (
-    <div className="flex flex-wrap gap-x-4 gap-y-2 px-4 py-2.5 bg-[#111d27]/85 backdrop-blur-md border border-metal-700/50 rounded-xl text-[0.68rem] font-bold text-metal-200">
+    <div className="flex flex-wrap gap-x-4 gap-y-2 px-4 py-2.5 bg-metal-900/85 backdrop-blur-md border border-metal-700/50 rounded-xl text-[0.68rem] font-bold text-metal-200">
       {groups.map(g => {
-        const gs = groupStyle(g);
+        const gs = colors[g] ?? colors.frontend;
         return (
           <span key={g} className="flex items-center gap-1.5">
             <span
@@ -121,7 +128,7 @@ function Legend({ groups }) {
 }
 
 // ─── SkillPanel (panel lateral) ──────────────────────────────────────────────
-function SkillPanel({ node, links, nodes, onClose }) {
+function SkillPanel({ node, links, nodes, onClose, colors }) {
   if (!node) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center opacity-50 gap-3 text-center px-4">
@@ -133,7 +140,7 @@ function SkillPanel({ node, links, nodes, onClose }) {
     );
   }
 
-  const gs = groupStyle(node.group);
+  const gs = colors[node.group] ?? colors.frontend;
 
   // Find connected nodes
   const connectedOut = links
@@ -182,7 +189,7 @@ function SkillPanel({ node, links, nodes, onClose }) {
       {/* Skill Level */}
       <div className="bg-metal-800/50 p-4 rounded-xl border border-metal-700/50">
         <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34d399]" />
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
           Nivel de dominio
         </p>
         <SkillMeter level={node.level ?? 3} color={gs.fill} />
@@ -192,11 +199,11 @@ function SkillPanel({ node, links, nodes, onClose }) {
       {connectedOut.length > 0 && (
         <div>
           <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
-            <span className="text-[#34d399]">→</span> Conecta con
+            <span className="text-[var(--accent)]">→</span> Conecta con
           </p>
           <div className="flex flex-col gap-2">
             {connectedOut.map(n => {
-              const ngs = groupStyle(n.group);
+              const ngs = colors[n.group] ?? colors.frontend;
               return (
                 <div key={n.id} className="flex items-center gap-3 bg-metal-800/40 px-3 py-2.5 rounded-lg border border-metal-700/40 transition-colors hover:border-metal-600/60">
                   <span
@@ -216,11 +223,11 @@ function SkillPanel({ node, links, nodes, onClose }) {
       {connectedIn.length > 0 && (
         <div>
           <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
-            <span className="text-[#b0c4e8]">←</span> Influenciado por
+            <span style={{ color: colors.db?.fill ?? '#b0c4e8' }}>←</span> Influenciado por
           </p>
           <div className="flex flex-col gap-2">
             {connectedIn.map(n => {
-              const ngs = groupStyle(n.group);
+              const ngs = colors[n.group] ?? colors.frontend;
               return (
                 <div key={n.id} className="flex items-center gap-3 bg-metal-800/40 px-3 py-2.5 rounded-lg border border-metal-700/40 transition-colors hover:border-metal-600/60">
                   <span
@@ -243,10 +250,18 @@ function SkillPanel({ node, links, nodes, onClose }) {
 export default function TechGraph() {
   const graphRef = useRef();
   const containerRef = useRef();
+  const { isDark } = useTheme();
 
   const [selectedNode, setSelectedNode] = useState(null);
   const [activeGroups, setActiveGroups] = useState(new Set());
   const [dimensions, setDimensions] = useState({ w: 700, h: 500 });
+
+  // Theme-dependent graph colors
+  const colors = isDark ? graphData.groupColorsDark : graphData.groupColorsLight;
+
+  // Theme-dependent link colors
+  const linkColor = isDark ? '#4a5c78' : '#cbd5e1';
+  const arrowColor = isDark ? '#697a9b' : '#94a3b8';
 
   // All groups
   const allGroups = useMemo(
@@ -329,7 +344,7 @@ export default function TechGraph() {
           <FunnelIcon className="w-3.5 h-3.5" />
           Filtros:
         </span>
-        <FilterBar groups={allGroups} active={activeGroups} onToggle={toggleGroup} />
+        <FilterBar groups={allGroups} active={activeGroups} onToggle={toggleGroup} colors={colors} />
       </div>
 
       {/* Main layout: Canvas + Panel */}
@@ -337,10 +352,10 @@ export default function TechGraph() {
         {/* Canvas container */}
         <div
           ref={containerRef}
-          className="flex-1 min-h-[450px] md:min-h-[500px] rounded-2xl border border-metal-700/50 bg-[#1a2a38]/90 backdrop-blur-sm overflow-hidden relative cursor-grab active:cursor-grabbing shadow-card"
+          className="flex-1 min-h-[450px] md:min-h-[500px] rounded-2xl border border-metal-700/50 bg-metal-800/90 backdrop-blur-sm overflow-hidden relative cursor-grab active:cursor-grabbing shadow-card transition-colors duration-300"
         >
           {/* Graph header */}
-          <div className="absolute top-0 inset-x-0 flex items-center justify-between px-5 py-3 border-b border-metal-700/40 bg-[#111d27]/70 backdrop-blur-md z-10">
+          <div className="absolute top-0 inset-x-0 flex items-center justify-between px-5 py-3 border-b border-metal-700/40 bg-metal-900/70 backdrop-blur-md z-10">
             <div className="flex items-center gap-2.5">
               <CircleStackIcon className="w-4.5 h-4.5 text-metal-400" />
               <span className="font-mono text-[0.72rem] font-semibold text-metal-300 uppercase tracking-[0.08em]">
@@ -348,7 +363,7 @@ export default function TechGraph() {
               </span>
             </div>
             <span className="font-mono text-[0.65rem] text-metal-500 flex items-center gap-1.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34d399] animate-pulse" />
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
               Click en un nodo para explorar
             </span>
           </div>
@@ -360,16 +375,16 @@ export default function TechGraph() {
             width={dimensions.w}
             height={dimensions.h}
             nodeLabel={n => n.name}
-            nodeColor={n => groupStyle(n.group).fill}
+            nodeColor={n => (colors[n.group] ?? colors.frontend).fill}
             nodeRelSize={1}
             nodeVal={n => (n.__r ?? 14) * (n.__r ?? 14)}
-            nodeCanvasObject={(node, ctx, scale) => drawNode(node, ctx, scale, selectedNode?.id)}
+            nodeCanvasObject={(node, ctx, scale) => drawNode(node, ctx, scale, selectedNode?.id, colors)}
             nodeCanvasObjectMode={() => 'replace'}
-            linkColor={() => '#4a5c78'}
+            linkColor={() => linkColor}
             linkWidth={1.8}
             linkDirectionalArrowLength={5}
             linkDirectionalArrowRelPos={1}
-            linkDirectionalArrowColor={() => '#697a9b'}
+            linkDirectionalArrowColor={() => arrowColor}
             onNodeClick={handleNodeClick}
             onBackgroundClick={handleBgClick}
             cooldownTicks={120}
@@ -379,12 +394,12 @@ export default function TechGraph() {
 
           {/* Legend */}
           <div className="absolute bottom-4 left-4 hidden md:block">
-            <Legend groups={allGroups} />
+            <Legend groups={allGroups} colors={colors} />
           </div>
         </div>
 
         {/* Side panel */}
-        <div className="w-full md:w-[300px] shrink-0 min-h-[300px] md:min-h-0 border border-metal-700/50 rounded-2xl bg-[#111d27]/90 backdrop-blur-md p-5 flex flex-col overflow-y-auto shadow-card">
+        <div className="w-full md:w-[300px] shrink-0 min-h-[300px] md:min-h-0 border border-metal-700/50 rounded-2xl bg-metal-900/90 backdrop-blur-md p-5 flex flex-col overflow-y-auto shadow-card transition-colors duration-300">
           <h3 className="text-[0.72rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-5 flex items-center gap-2 pb-3 border-b border-metal-700/40">
             <CircleStackIcon className="w-4 h-4" />
             Explorador de Skill
@@ -394,6 +409,7 @@ export default function TechGraph() {
             links={filteredData.links}
             nodes={filteredData.nodes}
             onClose={() => setSelectedNode(null)}
+            colors={colors}
           />
         </div>
       </div>

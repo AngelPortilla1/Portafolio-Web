@@ -224,7 +224,7 @@ export default function About() {
         </h2>
       </div>
 
-      {/* Terminal window */}
+      {/* Terminal window — mantiene estética oscura en ambos modos */}
       <div className="terminal-window" onClick={() => inputRef.current?.focus()}>
 
         {/* Chrome */}
@@ -275,7 +275,7 @@ export default function About() {
       {/* Hint */}
       <p className="font-mono text-[0.65rem] text-metal-600 mt-4 text-center tracking-[0.08em] uppercase">
         ✦ Terminal interactiva — escribe{' '}
-        <span className="text-[#34d399]/60">help</span> para ver comandos
+        <span className="text-[rgba(var(--accent-rgb),0.6)]">help</span> para ver comandos
       </p>
     </section>
   );

@@ -98,13 +98,21 @@ export const graphData = {
     { source: 10, target: 11 },
     { source: 12, target: 13 }, { source: 12, target: 14 },
   ],
-  groupColors: {
+  groupColorsDark: {
     core: { fill: "#34d399", stroke: "#10b981", label: "Perfil" },
     frontend: { fill: "#8a9bb7", stroke: "#697a9b", label: "Frontend" },
     backend: { fill: "#697a9b", stroke: "#4a5c78", label: "Backend" },
     db: { fill: "#b0c4e8", stroke: "#8a9bb7", label: "Base de Datos" },
     graph: { fill: "#2b3d4f", stroke: "#1e2d3b", label: "IA" },
     devops: { fill: "#8a9bb7", stroke: "#4a5c78", label: "DevOps" }
+  },
+  groupColorsLight: {
+    core: { fill: "#059669", stroke: "#047857", label: "Perfil" },
+    frontend: { fill: "#3b82f6", stroke: "#2563eb", label: "Frontend" },
+    backend: { fill: "#8b5cf6", stroke: "#7c3aed", label: "Backend" },
+    db: { fill: "#06b6d4", stroke: "#0891b2", label: "Base de Datos" },
+    graph: { fill: "#f43f5e", stroke: "#e11d48", label: "IA" },
+    devops: { fill: "#f59e0b", stroke: "#d97706", label: "DevOps" }
   }
 };
 

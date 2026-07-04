@@ -2,15 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── CSS VARIABLES: PALETA PRINCIPAL ── */
+/* ══════════════════════════════════════════════════════════════
+   THEME SYSTEM — CSS Custom Properties
+   Light mode = default (:root)   |   Dark mode = .dark
+══════════════════════════════════════════════════════════════ */
+
+/* ── LIGHT MODE (default) ── */
 :root {
-  --color-1: #b0c4e8;  /* azul claro  */
-  --color-2: #8a9bb7;  /* azul medio  */
-  --color-3: #697a9b;  /* azul gris   */
-  --color-4: #4a5c78;  /* azul oscuro (acento base) */
-  --color-5: #2b3d4f;  /* navy */
-  --accent:  #34d399;  /* verde esmeralda — color acento principal */
-  --accent-bright: #6ee7b7; /* verde claro para hovers */
+  /* Metal scale — space-separated RGB for Tailwind opacity support */
+  --metal-50:  15 23 42;        /* slate-900 — darkest (rarely used in light) */
+  --metal-100: 30 41 59;        /* slate-800 — headings */
+  --metal-200: 51 65 85;        /* slate-700 — emphasis text */
+  --metal-300: 71 85 105;       /* slate-600 — secondary text */
+  --metal-400: 100 116 139;     /* slate-500 — nav links, labels */
+  --metal-500: 148 163 184;     /* slate-400 — muted info */
+  --metal-600: 203 213 225;     /* slate-300 — very muted */
+  --metal-700: 226 232 240;     /* slate-200 — borders */
+  --metal-800: 241 245 249;     /* slate-100 — surfaces, cards */
+  --metal-900: 248 250 252;     /* slate-50  — deep backgrounds */
+
+  /* Semantic colors */
+  --accent:        #059669;
+  --accent-bright: #34d399;
+  --accent-rgb:    5, 150, 105;
+
+  /* Paleta clásica (para metal-divider, eyebrow, etc.) */
+  --color-1: #475569;
+  --color-2: #64748b;
+  --color-3: #94a3b8;
+  --color-4: #cbd5e1;
+  --color-5: #e2e8f0;
+
+  /* Body & surfaces */
+  --bg-body:    #f8fafb;
+  --bg-dots:    #e2e8f0;
+  --body-text:  #1e293b;
+
+  /* Hero */
+  --hero-name:       #1e293b;
+  --hero-grad-from:  #f8fafb;
+
+  /* Accent on (text color on accent backgrounds) */
+  --accent-on: #ffffff;
+}
+
+/* ── DARK MODE ── */
+.dark {
+  /* Metal scale — original portfolio palette */
+  --metal-50:  238 243 251;     /* #eef3fb */
+  --metal-100: 216 228 245;     /* #d8e4f5 */
+  --metal-200: 176 196 232;     /* #b0c4e8 */
+  --metal-300: 138 155 183;     /* #8a9bb7 */
+  --metal-400: 105 122 155;     /* #697a9b */
+  --metal-500: 74 92 120;       /* #4a5c78 */
+  --metal-600: 61 78 104;       /* #3d4e68 */
+  --metal-700: 43 61 79;        /* #2b3d4f */
+  --metal-800: 30 45 59;        /* #1e2d3b */
+  --metal-900: 17 29 39;        /* #111d27 */
+
+  /* Semantic colors */
+  --accent:        #34d399;
+  --accent-bright: #6ee7b7;
+  --accent-rgb:    52, 211, 153;
+
+  /* Paleta clásica */
+  --color-1: #b0c4e8;
+  --color-2: #8a9bb7;
+  --color-3: #697a9b;
+  --color-4: #4a5c78;
+  --color-5: #2b3d4f;
+
+  /* Body & surfaces */
+  --bg-body:    #111d27;
+  --bg-dots:    #1e2d3b;
+  --body-text:  #d8e4f5;
+
+  /* Hero */
+  --hero-name:       #ffffff;
+  --hero-grad-from:  #111d27;
+
+  /* Accent on */
+  --accent-on: #111d27;
 }
 
 /* ── RESET ── */
@@ -21,26 +93,29 @@
 }
 
 /* ── BASE ── */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
 
 body {
   font-family: 'Inter', sans-serif;
-  /* Dark mode: fondo oscuro con patrón de puntos sutiles */
-  background-color: #111d27;
+  background-color: var(--bg-body);
   background-image: radial-gradient(
     circle,
-    #1e2d3b 1px,
+    var(--bg-dots) 1px,
     transparent 1px
   );
   background-size: 28px 28px;
-  color: #d8e4f5;
+  color: var(--body-text);
   line-height: 1.6;
   min-height: 100vh;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 /* ── HERO NAME GRADIENT TEXT ── */
 .hero-name-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-bright) 45%, var(--accent) 100%);
+  background: linear-gradient(135deg, var(--hero-name) 0%, var(--accent-bright) 45%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -79,7 +154,7 @@ body {
   border-radius: 1px;
 }
 
-/* ── SEARCH ICON (now handled by Heroicons in JSX) ── */
+/* ── SEARCH ICON ── */
 .search-wrap {
   position: relative;
   flex: 1;
@@ -101,9 +176,9 @@ body {
   border-radius: 50%;
 }
 .level-dot.filled { background: var(--accent); }
-.level-dot.empty  { background: var(--color-4); opacity: 0.4; }
+.level-dot.empty  { background: rgb(var(--metal-500)); opacity: 0.4; }
 
-/* ── GRAPH CANVAS (force-graph container) ── */
+/* ── GRAPH CANVAS ── */
 .graph-canvas {
   width: 100%;
   height: 450px;
@@ -129,14 +204,14 @@ body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-/* Badges adaptados al dark mode */
-.badge-blue   { background: rgba(176,196,232,0.15); color: #b0c4e8; border: 1px solid rgba(176,196,232,0.25); }
+.badge-blue   { background: rgba(var(--accent-rgb),0.1); color: var(--accent); border: 1px solid rgba(var(--accent-rgb),0.2); }
 .badge-green  { background: rgba(110,210,150,0.12); color: #6ed296; border: 1px solid rgba(110,210,150,0.22); }
 .badge-purple { background: rgba(180,150,230,0.12); color: #b496e6; border: 1px solid rgba(180,150,230,0.22); }
 .badge-orange { background: rgba(240,180,100,0.12); color: #f0b464; border: 1px solid rgba(240,180,100,0.22); }
 
 /* ══════════════════════════════════════════════
    TERMINAL INTERACTIVA — About Section
+   (Mantiene estética oscura en ambos modos)
 ══════════════════════════════════════════════ */
 
 /* ── Ventana de terminal ── */
@@ -301,4 +376,13 @@ body {
   background: rgba(52,211,153,0.07);
   margin: 2px 3px;
   letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════════════
+   THEME TOGGLE ANIMATION
+══════════════════════════════════════════════ */
+@keyframes theme-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.6); }
+  100% { transform: rotate(360deg) scale(1); }
 }

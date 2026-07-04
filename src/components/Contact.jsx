@@ -22,7 +22,7 @@ export default function Contact() {
       <div className="flex gap-4 flex-wrap">
         {/* Email */}
         <a
-          className="flex-1 min-w-[200px] bg-[#1e2d3b] border border-metal-700/60 rounded-lg p-5 text-center shadow-card no-underline text-inherit cursor-pointer transition-all duration-200 hover:border-metal-500/60 hover:shadow-card-hover hover:-translate-y-0.5"
+          className="flex-1 min-w-[200px] bg-metal-800 border border-metal-700/60 rounded-lg p-5 text-center shadow-card no-underline text-inherit cursor-pointer transition-all duration-200 hover:border-metal-500/60 hover:shadow-card-hover hover:-translate-y-0.5"
           href={`mailto:${personalInfo.contact.email}`}
         >
           <div className="flex justify-center mb-2">
@@ -34,7 +34,7 @@ export default function Contact() {
 
         {/* GitHub */}
         <a
-          className="flex-1 min-w-[200px] bg-[#1e2d3b] border border-metal-700/60 rounded-lg p-5 text-center shadow-card no-underline text-inherit cursor-pointer transition-all duration-200 hover:border-metal-500/60 hover:shadow-card-hover hover:-translate-y-0.5"
+          className="flex-1 min-w-[200px] bg-metal-800 border border-metal-700/60 rounded-lg p-5 text-center shadow-card no-underline text-inherit cursor-pointer transition-all duration-200 hover:border-metal-500/60 hover:shadow-card-hover hover:-translate-y-0.5"
           href={personalInfo.contact.github}
           target="_blank" rel="noreferrer"
         >
@@ -49,7 +49,7 @@ export default function Contact() {
 
         {/* Instagram */}
         <a
-          className="flex-1 min-w-[200px] bg-[#1e2d3b] border border-metal-700/60 rounded-lg p-5 text-center shadow-card no-underline text-inherit cursor-pointer transition-all duration-200 hover:border-metal-500/60 hover:shadow-card-hover hover:-translate-y-0.5"
+          className="flex-1 min-w-[200px] bg-metal-800 border border-metal-700/60 rounded-lg p-5 text-center shadow-card no-underline text-inherit cursor-pointer transition-all duration-200 hover:border-metal-500/60 hover:shadow-card-hover hover:-translate-y-0.5"
           href={personalInfo.contact.linkedin}
           target="_blank" rel="noreferrer"
         >
