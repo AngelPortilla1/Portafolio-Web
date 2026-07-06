@@ -1,8 +1,83 @@
-import React from 'react';
-import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowDownTrayIcon, CodeBracketIcon, CpuChipIcon, BeakerIcon } from '@heroicons/react/24/outline';
 import { personalInfo } from '../data/portfolioData';
 import GhostPhoto from '../assets/GhostPhoto.png';
 import ColorPhoto from '../assets/ColorPhoto.png';
+
+/* ── Animated counter hook ── */
+function useCountUp(target, duration = 1600) {
+  const [count, setCount] = useState(0);
+  const triggered = useRef(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !triggered.current) {
+          triggered.current = true;
+          const start = performance.now();
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+            setCount(Math.floor(eased * target));
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return { count, ref };
+}
+
+/* ── Icon map for stats ── */
+const statIcons = [
+  <CodeBracketIcon className="w-5 h-5" />,
+  <CpuChipIcon className="w-5 h-5" />,
+  <BeakerIcon className="w-5 h-5" />,
+];
+
+/* ── Single stat card ── */
+function StatCard({ stat, index }) {
+  const numericValue = parseInt(stat.num, 10) || 0;
+  const suffix = stat.num.replace(/[0-9]/g, '');
+  const { count, ref } = useCountUp(numericValue, 1800 + index * 300);
+
+  return (
+    <div
+      ref={ref}
+      className="stat-card group/stat relative flex flex-col items-center gap-3 px-6 py-5 rounded-xl cursor-default transition-all duration-500"
+      style={{ animationDelay: `${index * 150}ms` }}
+    >
+      {/* Glow ring on hover */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.12)_0%,transparent_70%)]" />
+
+      {/* Icon circle */}
+      <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.2)] text-[var(--accent)] transition-all duration-500 group-hover/stat:bg-[rgba(var(--accent-rgb),0.2)] group-hover/stat:border-[rgba(var(--accent-rgb),0.5)] group-hover/stat:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)] group-hover/stat:scale-110">
+        {statIcons[index] || statIcons[0]}
+      </div>
+
+      {/* Number */}
+      <span className="relative z-10 font-mono text-[2rem] font-bold tracking-tight leading-none stat-number-gradient">
+        {count}{suffix}
+      </span>
+
+      {/* Label */}
+      <span className="relative z-10 text-[0.7rem] text-metal-400 uppercase tracking-[0.14em] font-medium">
+        {stat.label}
+      </span>
+
+      {/* Active dot */}
+      <div className="absolute top-3 right-3 w-[6px] h-[6px] rounded-full bg-[var(--accent)] opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500 stat-pulse-dot" />
+    </div>
+  );
+}
 
 export default function Hero() {
   return (
@@ -54,17 +129,10 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Stats */}
-          <div className="flex gap-10 mt-14 pt-8 border-t border-[rgba(var(--accent-rgb),0.2)] flex-wrap max-md:justify-center">
+          {/* ── Stats — Premium Glass Cards ── */}
+          <div className="flex gap-3 mt-14 flex-wrap max-md:justify-center">
             {personalInfo.stats.map((stat, idx) => (
-              <div key={idx} className="flex flex-col">
-                <span className="font-mono text-[1.6rem] font-semibold text-[var(--accent)]">
-                  {stat.num}
-                </span>
-                <span className="text-[0.72rem] text-metal-400 uppercase tracking-[0.08em] mt-1">
-                  {stat.label}
-                </span>
-              </div>
+              <StatCard key={idx} stat={stat} index={idx} />
             ))}
           </div>
         </div>
@@ -107,3 +175,4 @@ export default function Hero() {
     </section>
   );
 }
+
