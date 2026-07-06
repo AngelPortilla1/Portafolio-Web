@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { personalInfo } from '../data/portfolioData';
+import ScrollReveal from './ScrollReveal';
 
 /* ── Helpers ─────────────────────────────────────────────────── */
 const PROMPT_EL = (
@@ -25,11 +26,11 @@ function Blank() {
 
 function SkillBadges({ skills }) {
   return (
-    <>
+    <span className="inline-flex flex-wrap gap-1">
       {skills.map(s => (
         <span key={s} className="t-skill-badge">{s}</span>
       ))}
-    </>
+    </span>
   );
 }
 
@@ -86,9 +87,9 @@ function getCommandResponse(cmd, ts) {
   ];
 
   if (c === 'contact') return [
-    <Line key={k('c0')}><span className="t-cyan">email   </span><span className="t-dim"> · </span><span className="t-yellow">angelportihernan019@gmail.com</span></Line>,
+    <Line key={k('c0')}><span className="t-cyan">email   </span><span className="t-dim"> · </span><span className="t-yellow">{personalInfo.contact.email}</span></Line>,
     <Line key={k('c1')}><span className="t-cyan">github  </span><span className="t-dim"> · </span><a href={personalInfo.contact.github} target="_blank" rel="noreferrer" className="t-green underline">github.com/AngelPortilla1</a></Line>,
-    <Line key={k('c2')}><span className="t-cyan">instagram</span><span className="t-dim"> · </span><a href={personalInfo.contact.linkedin} target="_blank" rel="noreferrer" className="t-purple underline">@ag_portilla_</a></Line>,
+    <Line key={k('c2')}><span className="t-cyan">linkedin</span><span className="t-dim"> · </span><a href={personalInfo.contact.linkedin} target="_blank" rel="noreferrer" className="t-purple underline">LinkedIn Profile</a></Line>,
   ];
 
   if (c === 'skills') return [
@@ -120,7 +121,7 @@ export default function About() {
   const bodyRef     = useRef(null);
   const inputRef    = useRef(null);
   const timersRef   = useRef([]);
-  const startedRef  = useRef(false);   // ← ref, no state: evita re-renders y closures stale
+  const startedRef  = useRef(false);
 
   const [lines, setLines]         = useState([]);
   const [inputVal, setInputVal]   = useState('');
@@ -133,14 +134,14 @@ export default function About() {
     }
   }, [lines, showInput]);
 
-  /* ── Focus en el input cuando aparece ── */
+  /* ── Focus input when shown ── */
   useEffect(() => {
     if (showInput && inputRef.current) {
       inputRef.current.focus();
     }
   }, [showInput]);
 
-  /* ── Secuencia typewriter ── */
+  /* ── Typewriter sequence ── */
   const runSequence = () => {
     if (startedRef.current) return;
     startedRef.current = true;
@@ -171,7 +172,6 @@ export default function About() {
     );
     observer.observe(el);
 
-    // Fallback si ya está visible al montar
     const rect = el.getBoundingClientRect();
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       setTimeout(runSequence, 400);
@@ -181,9 +181,9 @@ export default function About() {
       observer.disconnect();
       timersRef.current.forEach(clearTimeout);
     };
-  }, []); // ← sin dependencias: se monta una sola vez
+  }, []);
 
-  /* ── Manejar comando del usuario ── */
+  /* ── Handle user command ── */
   const handleCommand = (e) => {
     e.preventDefault();
     const cmd = inputVal.trim();
@@ -210,70 +210,81 @@ export default function About() {
     setLines(prev => [...prev, cmdLine, ...response, <Blank key={`b-${ts}`} />]);
   };
 
-  /* ── Render ── */
   return (
-    <section id="about" className="py-24 px-8 max-w-[1000px] mx-auto" ref={sectionRef}>
-
+    <section
+      id="about"
+      className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1000px] mx-auto"
+      ref={sectionRef}
+      aria-label="Sobre mí"
+    >
       {/* Header */}
-      <div className="mb-10">
-        <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
-          // ABOUT_ME
+      <ScrollReveal>
+        <div className="mb-8 sm:mb-10">
+          <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
+            // ABOUT_ME
+          </div>
+          <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
+            Sobre mí
+          </h2>
         </div>
-        <h2 className="text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-          Sobre mí
-        </h2>
-      </div>
+      </ScrollReveal>
 
-      {/* Terminal window — mantiene estética oscura en ambos modos */}
-      <div className="terminal-window" onClick={() => inputRef.current?.focus()}>
+      {/* Terminal */}
+      <ScrollReveal variant="scale">
+        <div
+          className="terminal-window"
+          onClick={() => inputRef.current?.focus()}
+          role="application"
+          aria-label="Terminal interactiva"
+        >
+          {/* Chrome */}
+          <div className="terminal-header">
+            <span className="terminal-dot terminal-dot-red" aria-hidden="true" />
+            <span className="terminal-dot terminal-dot-yellow" aria-hidden="true" />
+            <span className="terminal-dot terminal-dot-green" aria-hidden="true" />
+            <span className="terminal-title hidden sm:block">angel@portfolio — bash — 80×24</span>
+          </div>
 
-        {/* Chrome */}
-        <div className="terminal-header">
-          <span className="terminal-dot terminal-dot-red" />
-          <span className="terminal-dot terminal-dot-yellow" />
-          <span className="terminal-dot terminal-dot-green" />
-          <span className="terminal-title">angel@portfolio — bash — 80×24</span>
+          {/* Body */}
+          <div className="terminal-body" ref={bodyRef}>
+            {lines}
+
+            {/* Blinking cursor during animation */}
+            {!showInput && (
+              <div className="terminal-line" style={{ position: 'relative', zIndex: 1, marginTop: '2px' }}>
+                <span className="terminal-cursor" />
+              </div>
+            )}
+
+            {/* User input */}
+            {showInput && (
+              <form
+                className="terminal-input-row"
+                onSubmit={handleCommand}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {PROMPT_EL}
+                <input
+                  ref={inputRef}
+                  className="terminal-input"
+                  value={inputVal}
+                  onChange={(e) => setInputVal(e.target.value)}
+                  placeholder="escribe un comando…"
+                  spellCheck={false}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  aria-label="Ingresa un comando de terminal"
+                />
+                <span className="terminal-cursor" style={{ flexShrink: 0 }} aria-hidden="true" />
+              </form>
+            )}
+          </div>
         </div>
-
-        {/* Body */}
-        <div className="terminal-body" ref={bodyRef}>
-
-          {lines}
-
-          {/* Cursor parpadeante durante la animación */}
-          {!showInput && (
-            <div className="terminal-line" style={{ position: 'relative', zIndex: 1, marginTop: '2px' }}>
-              <span className="terminal-cursor" />
-            </div>
-          )}
-
-          {/* Input real */}
-          {showInput && (
-            <form
-              className="terminal-input-row"
-              onSubmit={handleCommand}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {PROMPT_EL}
-              <input
-                ref={inputRef}
-                className="terminal-input"
-                value={inputVal}
-                onChange={(e) => setInputVal(e.target.value)}
-                placeholder="escribe un comando…"
-                spellCheck={false}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-              />
-              <span className="terminal-cursor" style={{ flexShrink: 0 }} />
-            </form>
-          )}
-        </div>
-      </div>
+      </ScrollReveal>
 
       {/* Hint */}
-      <p className="font-mono text-[0.65rem] text-metal-600 mt-4 text-center tracking-[0.08em] uppercase">
+      <p className="font-mono text-[0.6rem] sm:text-[0.65rem] text-metal-600 mt-4 text-center tracking-[0.08em] uppercase">
         ✦ Terminal interactiva — escribe{' '}
         <span className="text-[rgba(var(--accent-rgb),0.6)]">help</span> para ver comandos
       </p>

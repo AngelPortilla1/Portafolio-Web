@@ -10,16 +10,21 @@ import Footer from './components/Footer';
 export default function App() {
   return (
     <div className="portfolio-app">
+      {/* Skip navigation for keyboard users */}
+      <a href="#about" className="skip-nav">
+        Saltar al contenido
+      </a>
+
       <Navbar />
-      <Hero />
-      <div className="metal-divider"></div>
-      <About />
-      <div className="metal-divider"></div>
-      <Projects />
-      <div className="metal-divider"></div>
-      <TechGraph />
-      <div className="metal-divider"></div>
-      <Contact />
+
+      <main id="main-content">
+        <Hero />
+        <About />
+        <Projects />
+        <TechGraph />
+        <Contact />
+      </main>
+
       <Footer />
     </div>
   );

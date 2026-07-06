@@ -4,10 +4,10 @@ import { forceCollide } from 'd3-force-3d';
 import { CircleStackIcon, XMarkIcon, FunnelIcon, CursorArrowRaysIcon } from '@heroicons/react/24/outline';
 import { graphData } from '../data/portfolioData';
 import { useTheme } from '../context/ThemeContext';
+import ScrollReveal from './ScrollReveal';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
-/** Compute perceived luminance to determine if a fill color is dark */
 function isColorDark(hex) {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -15,7 +15,7 @@ function isColorDark(hex) {
   return (r * 0.299 + g * 0.587 + b * 0.114) < 140;
 }
 
-// ─── SkillMeter: barra de nivel visual ───────────────────────────────────────
+// ─── SkillMeter ──────────────────────────────────────────────────────────────
 function SkillMeter({ level, max = 5, color = '#34d399' }) {
   const pct = Math.round((level / max) * 100);
   return (
@@ -33,13 +33,12 @@ function SkillMeter({ level, max = 5, color = '#34d399' }) {
   );
 }
 
-// ─── Renderizado de nodo canvas ──────────────────────────────────────────────
+// ─── Node canvas rendering ───────────────────────────────────────────────────
 function drawNode(node, ctx, globalScale, selectedId, colors) {
   const r = node.__r ?? 14;
   const gs = colors[node.group] ?? colors.frontend;
   const isSelected = node.id === selectedId;
 
-  // Halo de selección
   if (isSelected) {
     ctx.beginPath();
     ctx.arc(node.x, node.y, r + 6, 0, 2 * Math.PI);
@@ -47,7 +46,6 @@ function drawNode(node, ctx, globalScale, selectedId, colors) {
     ctx.fill();
   }
 
-  // Círculo principal
   ctx.beginPath();
   ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
   ctx.fillStyle = gs.fill;
@@ -56,7 +54,6 @@ function drawNode(node, ctx, globalScale, selectedId, colors) {
   ctx.lineWidth = isSelected ? 2.5 : 1.2;
   ctx.stroke();
 
-  // Anillo de skill level (arco exterior proporcional al level)
   const levelRatio = (node.level ?? 3) / 5;
   ctx.beginPath();
   ctx.arc(node.x, node.y, r + 3, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * levelRatio);
@@ -64,13 +61,10 @@ function drawNode(node, ctx, globalScale, selectedId, colors) {
   ctx.lineWidth = 2.2;
   ctx.stroke();
 
-  // Label
   const fontSize = Math.max(8, 11 / globalScale);
   ctx.font = `600 ${fontSize}px Inter, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-
-  // Text color: auto-detect based on fill luminance
   ctx.fillStyle = isColorDark(gs.fill) ? '#e8edf5' : '#1a1a2e';
 
   const label = node.name;
@@ -80,7 +74,7 @@ function drawNode(node, ctx, globalScale, selectedId, colors) {
 // ─── FilterBar ───────────────────────────────────────────────────────────────
 function FilterBar({ groups, active, onToggle, colors }) {
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex gap-1.5 sm:gap-2 flex-wrap">
       {groups.map(g => {
         const gs = colors[g] ?? colors.frontend;
         const on = active.has(g);
@@ -88,16 +82,19 @@ function FilterBar({ groups, active, onToggle, colors }) {
           <button
             key={g}
             onClick={() => onToggle(g)}
-            className={`px-3.5 py-1.5 rounded-full text-[0.68rem] font-bold uppercase tracking-[0.06em] cursor-pointer transition-all duration-200 border ${
+            className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[0.6rem] sm:text-[0.68rem] font-bold uppercase tracking-[0.06em] cursor-pointer transition-all duration-200 border ${
               on
                 ? 'hover:-translate-y-px shadow-sm'
                 : 'bg-metal-800/60 text-metal-400 border-metal-700/50 hover:bg-metal-700/60 hover:text-metal-200'
             }`}
             style={on ? { borderColor: gs.stroke, background: gs.fill + '30', color: gs.fill } : {}}
+            aria-pressed={on}
+            aria-label={`Filtrar ${gs.label ?? g}`}
           >
             <span
-              className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
+              className="inline-block w-2 h-2 rounded-full mr-1 sm:mr-1.5 align-middle"
               style={{ background: gs.fill, border: `1px solid ${gs.stroke}` }}
+              aria-hidden="true"
             />
             {gs.label ?? g}
           </button>
@@ -118,6 +115,7 @@ function Legend({ groups, colors }) {
             <span
               className="w-3 h-3 rounded-full inline-block border"
               style={{ background: gs.fill, borderColor: gs.stroke }}
+              aria-hidden="true"
             />
             {gs.label ?? g}
           </span>
@@ -127,7 +125,7 @@ function Legend({ groups, colors }) {
   );
 }
 
-// ─── SkillPanel (panel lateral) ──────────────────────────────────────────────
+// ─── SkillPanel ──────────────────────────────────────────────────────────────
 function SkillPanel({ node, links, nodes, onClose, colors }) {
   if (!node) {
     return (
@@ -142,7 +140,6 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
 
   const gs = colors[node.group] ?? colors.frontend;
 
-  // Find connected nodes
   const connectedOut = links
     .filter(l => (l.source?.id ?? l.source) === node.id)
     .map(l => nodes.find(n => n.id === (l.target?.id ?? l.target)))
@@ -173,7 +170,8 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
         </div>
         <button
           onClick={onClose}
-          className="bg-metal-800 hover:bg-red-900/40 hover:text-red-400 text-metal-400 rounded-full w-7 h-7 flex items-center justify-center transition-colors shrink-0"
+          className="bg-metal-800 hover:bg-red-900/40 hover:text-red-400 text-metal-400 rounded-full w-7 h-7 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+          aria-label="Cerrar panel"
         >
           <XMarkIcon className="w-3.5 h-3.5" />
         </button>
@@ -189,7 +187,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
       {/* Skill Level */}
       <div className="bg-metal-800/50 p-4 rounded-xl border border-metal-700/50">
         <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />
           Nivel de dominio
         </p>
         <SkillMeter level={node.level ?? 3} color={gs.fill} />
@@ -209,6 +207,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
                   <span
                     className="w-3 h-3 rounded-full shrink-0 border"
                     style={{ background: ngs.fill, borderColor: ngs.stroke }}
+                    aria-hidden="true"
                   />
                   <span className="text-[0.78rem] font-semibold text-metal-200">{n.name}</span>
                   <span className="ml-auto text-[0.6rem] font-mono text-metal-500">{n.category}</span>
@@ -233,6 +232,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
                   <span
                     className="w-3 h-3 rounded-full shrink-0 border"
                     style={{ background: ngs.fill, borderColor: ngs.stroke }}
+                    aria-hidden="true"
                   />
                   <span className="text-[0.78rem] font-semibold text-metal-200">{n.name}</span>
                   <span className="ml-auto text-[0.6rem] font-mono text-metal-500">{n.category}</span>
@@ -256,25 +256,19 @@ export default function TechGraph() {
   const [activeGroups, setActiveGroups] = useState(new Set());
   const [dimensions, setDimensions] = useState({ w: 700, h: 500 });
 
-  // Theme-dependent graph colors
   const colors = isDark ? graphData.groupColorsDark : graphData.groupColorsLight;
-
-  // Theme-dependent link colors
   const linkColor = isDark ? '#4a5c78' : '#cbd5e1';
   const arrowColor = isDark ? '#697a9b' : '#94a3b8';
 
-  // All groups
   const allGroups = useMemo(
     () => [...new Set(graphData.nodes.map(n => n.group))],
     []
   );
 
-  // Initialize activeGroups on mount
   useEffect(() => {
     setActiveGroups(new Set(allGroups));
   }, [allGroups]);
 
-  // Responsive dimensions
   useEffect(() => {
     if (!containerRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
@@ -284,7 +278,6 @@ export default function TechGraph() {
     return () => ro.disconnect();
   }, []);
 
-  // Filtered graph data
   const filteredData = useMemo(() => {
     const filteredNodes = graphData.nodes
       .filter(n => activeGroups.size === 0 || activeGroups.has(n.group))
@@ -298,7 +291,6 @@ export default function TechGraph() {
     return { nodes: filteredNodes, links: filteredLinks };
   }, [activeGroups]);
 
-  // Forces
   useEffect(() => {
     if (!graphRef.current) return;
     graphRef.current.d3Force('charge')?.strength(-320);
@@ -327,92 +319,103 @@ export default function TechGraph() {
   });
 
   return (
-    <section id="stack" className="py-24 px-8 max-w-[1100px] mx-auto">
+    <section
+      id="stack"
+      className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1100px] mx-auto"
+      aria-label="Stack tecnológico"
+    >
       {/* Section header */}
-      <div className="mb-6">
-        <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
-          // TECH_GRAPH
+      <ScrollReveal>
+        <div className="mb-6">
+          <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
+            // TECH_GRAPH
+          </div>
+          <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
+            Mi Stack Tecnológico
+          </h2>
         </div>
-        <h2 className="text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-          Mi Stack Tecnológico
-        </h2>
-      </div>
+      </ScrollReveal>
 
       {/* Filters */}
-      <div className="flex items-center gap-4 flex-wrap mb-4 bg-metal-800/40 px-4 py-3 rounded-xl border border-metal-700/40">
-        <span className="text-[0.68rem] font-bold text-metal-400 uppercase tracking-[0.1em] flex items-center gap-1.5 shrink-0">
-          <FunnelIcon className="w-3.5 h-3.5" />
-          Filtros:
-        </span>
-        <FilterBar groups={allGroups} active={activeGroups} onToggle={toggleGroup} colors={colors} />
-      </div>
+      <ScrollReveal delay={1}>
+        <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-wrap mb-4 bg-metal-800/40 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-metal-700/40">
+          <span className="text-[0.62rem] sm:text-[0.68rem] font-bold text-metal-400 uppercase tracking-[0.1em] flex items-center gap-1.5 shrink-0">
+            <FunnelIcon className="w-3.5 h-3.5" />
+            Filtros:
+          </span>
+          <FilterBar groups={allGroups} active={activeGroups} onToggle={toggleGroup} colors={colors} />
+        </div>
+      </ScrollReveal>
 
       {/* Main layout: Canvas + Panel */}
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Canvas container */}
-        <div
-          ref={containerRef}
-          className="flex-1 min-h-[450px] md:min-h-[500px] rounded-2xl border border-metal-700/50 bg-metal-800/90 backdrop-blur-sm overflow-hidden relative cursor-grab active:cursor-grabbing shadow-card transition-colors duration-300"
-        >
-          {/* Graph header */}
-          <div className="absolute top-0 inset-x-0 flex items-center justify-between px-5 py-3 border-b border-metal-700/40 bg-metal-900/70 backdrop-blur-md z-10">
-            <div className="flex items-center gap-2.5">
-              <CircleStackIcon className="w-4.5 h-4.5 text-metal-400" />
-              <span className="font-mono text-[0.72rem] font-semibold text-metal-300 uppercase tracking-[0.08em]">
-                Grafo de Tecnologías
+      <ScrollReveal variant="scale">
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Canvas container */}
+          <div
+            ref={containerRef}
+            className="flex-1 min-h-[350px] sm:min-h-[450px] md:min-h-[500px] rounded-2xl border border-metal-700/50 bg-metal-800/90 backdrop-blur-sm overflow-hidden relative cursor-grab active:cursor-grabbing shadow-card transition-colors duration-300"
+          >
+            {/* Graph header */}
+            <div className="absolute top-0 inset-x-0 flex items-center justify-between px-3 sm:px-5 py-2.5 sm:py-3 border-b border-metal-700/40 bg-metal-900/70 backdrop-blur-md z-10">
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                <CircleStackIcon className="w-4 h-4 text-metal-400" />
+                <span className="font-mono text-[0.65rem] sm:text-[0.72rem] font-semibold text-metal-300 uppercase tracking-[0.08em]">
+                  Grafo de Tecnologías
+                </span>
+              </div>
+              <span className="font-mono text-[0.58rem] sm:text-[0.65rem] text-metal-500 flex items-center gap-1.5">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" aria-hidden="true" />
+                <span className="hidden sm:inline">Click en un nodo para explorar</span>
+                <span className="sm:hidden">Toca un nodo</span>
               </span>
             </div>
-            <span className="font-mono text-[0.65rem] text-metal-500 flex items-center gap-1.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-              Click en un nodo para explorar
-            </span>
+
+            {/* Force graph */}
+            <ForceGraph2D
+              ref={graphRef}
+              graphData={filteredData}
+              width={dimensions.w}
+              height={dimensions.h}
+              nodeLabel={n => n.name}
+              nodeColor={n => (colors[n.group] ?? colors.frontend).fill}
+              nodeRelSize={1}
+              nodeVal={n => (n.__r ?? 14) * (n.__r ?? 14)}
+              nodeCanvasObject={(node, ctx, scale) => drawNode(node, ctx, scale, selectedNode?.id, colors)}
+              nodeCanvasObjectMode={() => 'replace'}
+              linkColor={() => linkColor}
+              linkWidth={1.8}
+              linkDirectionalArrowLength={5}
+              linkDirectionalArrowRelPos={1}
+              linkDirectionalArrowColor={() => arrowColor}
+              onNodeClick={handleNodeClick}
+              onBackgroundClick={handleBgClick}
+              cooldownTicks={120}
+              enableZoomInteraction={true}
+              enablePanInteraction={true}
+            />
+
+            {/* Legend — hidden on mobile */}
+            <div className="absolute bottom-4 left-4 hidden md:block">
+              <Legend groups={allGroups} colors={colors} />
+            </div>
           </div>
 
-          {/* Force graph */}
-          <ForceGraph2D
-            ref={graphRef}
-            graphData={filteredData}
-            width={dimensions.w}
-            height={dimensions.h}
-            nodeLabel={n => n.name}
-            nodeColor={n => (colors[n.group] ?? colors.frontend).fill}
-            nodeRelSize={1}
-            nodeVal={n => (n.__r ?? 14) * (n.__r ?? 14)}
-            nodeCanvasObject={(node, ctx, scale) => drawNode(node, ctx, scale, selectedNode?.id, colors)}
-            nodeCanvasObjectMode={() => 'replace'}
-            linkColor={() => linkColor}
-            linkWidth={1.8}
-            linkDirectionalArrowLength={5}
-            linkDirectionalArrowRelPos={1}
-            linkDirectionalArrowColor={() => arrowColor}
-            onNodeClick={handleNodeClick}
-            onBackgroundClick={handleBgClick}
-            cooldownTicks={120}
-            enableZoomInteraction={true}
-            enablePanInteraction={true}
-          />
-
-          {/* Legend */}
-          <div className="absolute bottom-4 left-4 hidden md:block">
-            <Legend groups={allGroups} colors={colors} />
+          {/* Side panel */}
+          <div className="w-full md:w-[300px] shrink-0 min-h-[250px] sm:min-h-[300px] md:min-h-0 border border-metal-700/50 rounded-2xl bg-metal-900/90 backdrop-blur-md p-4 sm:p-5 flex flex-col overflow-y-auto shadow-card transition-colors duration-300">
+            <h3 className="text-[0.72rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-5 flex items-center gap-2 pb-3 border-b border-metal-700/40">
+              <CircleStackIcon className="w-4 h-4" />
+              Explorador de Skill
+            </h3>
+            <SkillPanel
+              node={selectedNode}
+              links={filteredData.links}
+              nodes={filteredData.nodes}
+              onClose={() => setSelectedNode(null)}
+              colors={colors}
+            />
           </div>
         </div>
-
-        {/* Side panel */}
-        <div className="w-full md:w-[300px] shrink-0 min-h-[300px] md:min-h-0 border border-metal-700/50 rounded-2xl bg-metal-900/90 backdrop-blur-md p-5 flex flex-col overflow-y-auto shadow-card transition-colors duration-300">
-          <h3 className="text-[0.72rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-5 flex items-center gap-2 pb-3 border-b border-metal-700/40">
-            <CircleStackIcon className="w-4 h-4" />
-            Explorador de Skill
-          </h3>
-          <SkillPanel
-            node={selectedNode}
-            links={filteredData.links}
-            nodes={filteredData.nodes}
-            onClose={() => setSelectedNode(null)}
-            colors={colors}
-          />
-        </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

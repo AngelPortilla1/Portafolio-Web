@@ -11,6 +11,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { projectsData } from "../data/portfolioData";
+import ScrollReveal from "./ScrollReveal";
 
 export default function Projects() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,211 +61,217 @@ export default function Projects() {
   const proj = filtered[current] ?? null;
 
   return (
-    <section id="projects" className="py-24 px-8 max-w-[1000px] mx-auto">
+    <section
+      id="projects"
+      className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1000px] mx-auto"
+      aria-label="Proyectos"
+    >
       {/* Section header */}
-      <div className="mb-10">
-        <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
-          // PROJECT_LOG
+      <ScrollReveal>
+        <div className="mb-8 sm:mb-10">
+          <div className="font-mono text-[0.72rem] text-metal-400 tracking-[0.14em] uppercase mb-2">
+            // PROJECT_LOG
+          </div>
+          <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
+            Proyectos
+          </h2>
         </div>
-        <h2 className="text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-          Proyectos
-        </h2>
-      </div>
+      </ScrollReveal>
 
       {/* LOG CONTAINER */}
-      <div className="bg-metal-800 border border-metal-700/60 rounded-xl overflow-hidden shadow-card transition-colors duration-300">
-
-        {/* Log header */}
-        <div className="flex items-center justify-between px-5 py-3.5 bg-metal-800 border-b border-metal-700/60">
-          <div className="flex items-center gap-3">
-            <FolderOpenIcon className="w-5 h-5 text-metal-400" />
-            <span className="font-mono text-[0.8rem] font-semibold text-metal-200 uppercase tracking-[0.08em]">
-              Registro de Proyectos
+      <ScrollReveal variant="scale">
+        <div className="bg-metal-800 border border-metal-700/60 rounded-xl overflow-hidden shadow-card transition-colors duration-300">
+          {/* Log header */}
+          <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 bg-metal-800 border-b border-metal-700/60">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <FolderOpenIcon className="w-5 h-5 text-metal-400" />
+              <span className="font-mono text-[0.72rem] sm:text-[0.8rem] font-semibold text-metal-200 uppercase tracking-[0.08em]">
+                Registro de Proyectos
+              </span>
+            </div>
+            <span className="font-mono text-[0.68rem] sm:text-[0.72rem] text-metal-500">
+              {filtered.length > 0 ? `${current + 1} / ${filtered.length}` : "0 / 0"}&nbsp;&nbsp;proyectos
             </span>
           </div>
-          <span className="font-mono text-[0.72rem] text-metal-500">
-            {filtered.length > 0 ? `${current + 1} / ${filtered.length}` : "0 / 0"}&nbsp;&nbsp;proyectos
-          </span>
-        </div>
 
-        {/* Search + nav bar */}
-        <div className="flex items-center gap-3 px-5 py-3 border-b border-metal-700/60 bg-metal-800">
-          <div className="flex-1 relative">
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-metal-500 pointer-events-none z-10" />
-            <input
-              type="text"
-              className="w-full bg-metal-900 border border-metal-700/60 rounded-md py-2.5 pl-9 pr-3 font-mono text-[0.8rem] text-metal-200 transition-all duration-200 outline-none focus:border-metal-500 placeholder:text-metal-600"
-              placeholder="Buscar proyecto, tecnologia..."
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
-          <button
-            onClick={prev}
-            disabled={filtered.length <= 1}
-            className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Anterior"
-          >
-            <ChevronLeftIcon className="w-4 h-4" />
-          </button>
-          <button
-            onClick={next}
-            disabled={filtered.length <= 1}
-            className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Siguiente"
-          >
-            <ChevronRightIcon className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Slide area */}
-        <div className="relative overflow-hidden" style={{ minHeight: "520px" }}>
-          {filtered.length === 0 ? (
-            <div className="py-16 text-center font-mono text-metal-600 text-[0.85rem]">
-              No se encontraron proyectos que coincidan con &ldquo;{searchTerm}&rdquo;
+          {/* Search + nav bar */}
+          <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3 border-b border-metal-700/60 bg-metal-800">
+            <div className="flex-1 relative min-w-0">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-metal-500 pointer-events-none z-10" />
+              <input
+                type="text"
+                className="w-full bg-metal-900 border border-metal-700/60 rounded-md py-2 sm:py-2.5 pl-9 pr-3 font-mono text-[0.75rem] sm:text-[0.8rem] text-metal-200 transition-all duration-200 outline-none focus:border-metal-500 placeholder:text-metal-600"
+                placeholder="Buscar proyecto..."
+                value={searchTerm}
+                onChange={handleSearch}
+                aria-label="Buscar proyectos"
+              />
             </div>
-          ) : proj ? (
-            <div
-              key={proj.id}
-              style={{
-                animation: animating
-                  ? direction === "right"
-                    ? "slideOutLeft 0.32s ease forwards"
-                    : "slideOutRight 0.32s ease forwards"
-                  : direction === "right"
-                  ? "slideInRight 0.32s ease forwards"
-                  : direction === "left"
-                  ? "slideInLeft 0.32s ease forwards"
-                  : "none",
-              }}
-              className="px-5 py-5"
+            <button
+              onClick={prev}
+              disabled={filtered.length <= 1}
+              className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed shrink-0 cursor-pointer"
+              aria-label="Proyecto anterior"
             >
-              {/* Entry header */}
-              <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full border-2 border-[var(--accent)] bg-[rgba(var(--accent-rgb),0.2)] flex-shrink-0" />
-                  <span className="font-mono text-[0.7rem] text-metal-500 bg-metal-900 px-2 py-0.5 rounded border border-metal-700/60">
-                    {proj.hash}
+              <ChevronLeftIcon className="w-4 h-4" />
+            </button>
+            <button
+              onClick={next}
+              disabled={filtered.length <= 1}
+              className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed shrink-0 cursor-pointer"
+              aria-label="Proyecto siguiente"
+            >
+              <ChevronRightIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Slide area */}
+          <div className="relative overflow-hidden min-h-[420px] sm:min-h-[520px]">
+            {filtered.length === 0 ? (
+              <div className="py-16 text-center font-mono text-metal-600 text-[0.85rem]">
+                No se encontraron proyectos que coincidan con &ldquo;{searchTerm}&rdquo;
+              </div>
+            ) : proj ? (
+              <div
+                key={proj.id}
+                style={{
+                  animation: animating
+                    ? direction === "right"
+                      ? "slideOutLeft 0.32s ease forwards"
+                      : "slideOutRight 0.32s ease forwards"
+                    : direction === "right"
+                    ? "slideInRight 0.32s ease forwards"
+                    : direction === "left"
+                    ? "slideInLeft 0.32s ease forwards"
+                    : "none",
+                }}
+                className="px-4 sm:px-5 py-4 sm:py-5"
+              >
+                {/* Entry header */}
+                <div className="flex items-center gap-2 sm:gap-2.5 mb-3 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full border-2 border-[var(--accent)] bg-[rgba(var(--accent-rgb),0.2)] flex-shrink-0" />
+                    <span className="font-mono text-[0.65rem] sm:text-[0.7rem] text-metal-500 bg-metal-900 px-2 py-0.5 rounded border border-metal-700/60">
+                      {proj.hash}
+                    </span>
+                  </div>
+                  <span className={`badge badge-${proj.badgeType}`}>{proj.badge}</span>
+                  <span className="font-mono text-[0.65rem] sm:text-[0.7rem] text-metal-500 ml-auto">{proj.date}</span>
+                </div>
+
+                {/* Title */}
+                <div className="text-[1rem] sm:text-[1.15rem] font-bold text-metal-100 mb-1 tracking-[-0.01em]">
+                  {proj.title}
+                </div>
+
+                {/* Stack */}
+                <div className="text-[0.72rem] sm:text-[0.78rem] text-metal-400 mb-4 flex items-center gap-1.5 flex-wrap">
+                  <CogIcon className="w-4 h-4 text-metal-500 flex-shrink-0" />
+                  <span className="text-metal-500">Stack:</span>
+                  <span className="font-mono text-[0.7rem] sm:text-[0.75rem] font-semibold text-metal-300">
+                    {proj.stackSummary}
                   </span>
                 </div>
-                <span className={`badge badge-${proj.badgeType}`}>{proj.badge}</span>
-                <span className="font-mono text-[0.7rem] text-metal-500 ml-auto">{proj.date}</span>
-              </div>
 
-              {/* Title */}
-              <div className="text-[1.15rem] font-bold text-metal-100 mb-1 tracking-[-0.01em]">
-                {proj.title}
-              </div>
-
-              {/* Stack */}
-              <div className="text-[0.78rem] text-metal-400 mb-4 flex items-center gap-1.5">
-                <CogIcon className="w-4 h-4 text-metal-500 flex-shrink-0" />
-                <span className="text-metal-500">Stack:</span>
-                <span className="font-mono text-[0.75rem] font-semibold text-metal-300">
-                  {proj.stackSummary}
-                </span>
-              </div>
-
-              {/* Two-column body */}
-              <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-                {/* Image */}
-                <div className="w-full h-[220px] rounded-md overflow-hidden border border-metal-700/60 bg-gradient-to-br from-metal-800 to-metal-900 flex items-center justify-center text-metal-600 font-mono text-[0.8rem]">
-                  {proj.image ? (
-                    <img src={proj.image} alt={proj.title} className="w-full h-full object-cover" />
-                  ) : (
-                    <span>[ Captura: {proj.title} ]</span>
-                  )}
-                </div>
-
-                {/* Right panel */}
-                <div className="flex flex-col gap-3">
-                  <div className="bg-metal-900 border border-metal-700/60 rounded-md px-4 py-3 flex-1">
-                    <div className="font-mono text-[0.68rem] font-semibold text-metal-500 uppercase tracking-[0.1em] mb-1.5 flex items-center gap-1.5">
-                      <DocumentTextIcon className="w-3.5 h-3.5" />
-                      DESCRIPCION:
-                    </div>
-                    <div className="font-mono text-[0.78rem] text-metal-300 leading-[1.6]">
-                      {proj.description}
-                    </div>
+                {/* Two-column body (stacks on mobile) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Image */}
+                  <div className="w-full h-[180px] sm:h-[220px] rounded-md overflow-hidden border border-metal-700/60 bg-gradient-to-br from-metal-800 to-metal-900 flex items-center justify-center text-metal-600 font-mono text-[0.8rem]">
+                    {proj.image ? (
+                      <img
+                        src={proj.image}
+                        alt={`Captura de ${proj.title}`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span>[ Captura: {proj.title} ]</span>
+                    )}
                   </div>
 
-                  <div className="flex gap-1.5 flex-wrap">
-                    {proj.tags.map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="font-mono text-[0.68rem] px-2.5 py-1 bg-metal-900 border border-metal-700/60 rounded text-metal-400"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {/* Right panel */}
+                  <div className="flex flex-col gap-3">
+                    <div className="bg-metal-900 border border-metal-700/60 rounded-md px-3 sm:px-4 py-3 flex-1">
+                      <div className="font-mono text-[0.65rem] sm:text-[0.68rem] font-semibold text-metal-500 uppercase tracking-[0.1em] mb-1.5 flex items-center gap-1.5">
+                        <DocumentTextIcon className="w-3.5 h-3.5" />
+                        DESCRIPCIÓN:
+                      </div>
+                      <div className="font-mono text-[0.72rem] sm:text-[0.78rem] text-metal-300 leading-[1.6]">
+                        {proj.description}
+                      </div>
+                    </div>
 
-                  <div className="flex gap-2.5 flex-wrap">
-                    {proj.demoUrl && (
-                      <a
-                        href={proj.demoUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold px-3.5 py-1.5 rounded bg-[var(--accent)] text-[var(--accent-on)] no-underline transition-all duration-150 hover:bg-[var(--accent-bright)] hover:shadow-[0_0_12px_rgba(var(--accent-rgb),0.45)]"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 stroke-[2.5px]" />
-                        Ver demo
-                      </a>
-                    )}
-                    {proj.paperUrl && (
-                      <a
-                        href={proj.paperUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-metal-500 text-metal-900 no-underline transition-colors duration-150 hover:bg-metal-400"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <DocumentIcon className="w-3.5 h-3.5" />
-                        Ver paper
-                      </a>
-                    )}
-                    {proj.githubUrl && (
-                      <a
-                        href={proj.githubUrl}
-                        className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium px-3.5 py-1.5 rounded bg-metal-800 border border-metal-600/60 text-metal-300 no-underline transition-all duration-150 hover:border-metal-400 hover:text-metal-100"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <CodeBracketIcon className="w-3.5 h-3.5" />
-                        GitHub
-                      </a>
-                    )}
+                    <div className="flex gap-1.5 flex-wrap">
+                      {proj.tags.map((tag, tIdx) => (
+                        <span
+                          key={tIdx}
+                          className="font-mono text-[0.62rem] sm:text-[0.68rem] px-2 sm:px-2.5 py-0.5 sm:py-1 bg-metal-900 border border-metal-700/60 rounded text-metal-400"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-2 sm:gap-2.5 flex-wrap">
+                      {proj.demoUrl && (
+                        <a
+                          href={proj.demoUrl}
+                          className="inline-flex items-center gap-1.5 text-[0.72rem] sm:text-[0.75rem] font-semibold px-3 sm:px-3.5 py-1.5 rounded bg-[var(--accent)] text-[var(--accent-on)] no-underline transition-all duration-150 hover:bg-[var(--accent-bright)] hover:shadow-[0_0_12px_rgba(var(--accent-rgb),0.45)]"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 stroke-[2.5px]" />
+                          Ver demo
+                        </a>
+                      )}
+                      {proj.paperUrl && (
+                        <a
+                          href={proj.paperUrl}
+                          className="inline-flex items-center gap-1.5 text-[0.72rem] sm:text-[0.75rem] font-medium px-3 sm:px-3.5 py-1.5 rounded bg-metal-500 text-metal-900 no-underline transition-colors duration-150 hover:bg-metal-400"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <DocumentIcon className="w-3.5 h-3.5" />
+                          Ver paper
+                        </a>
+                      )}
+                      {proj.githubUrl && (
+                        <a
+                          href={proj.githubUrl}
+                          className="inline-flex items-center gap-1.5 text-[0.72rem] sm:text-[0.75rem] font-medium px-3 sm:px-3.5 py-1.5 rounded bg-metal-800 border border-metal-600/60 text-metal-300 no-underline transition-all duration-150 hover:border-metal-400 hover:text-metal-100"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <CodeBracketIcon className="w-3.5 h-3.5" />
+                          GitHub
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : null}
-        </div>
-
-        {/* Dot navigation */}
-        {filtered.length > 1 && (
-          <div className="flex items-center justify-center gap-2 py-4 border-t border-metal-700/60">
-            {filtered.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => goTo(idx, idx > current ? "right" : "left")}
-                className={`transition-all duration-300 rounded-full ${
-                  idx === current
-                    ? "w-6 h-2 bg-[var(--accent)]"
-                    : "w-2 h-2 bg-metal-600 hover:bg-metal-400"
-                }`}
-                aria-label={`Ir al proyecto ${idx + 1}`}
-              />
-            ))}
+            ) : null}
           </div>
-        )}
-      </div>
 
-      <style>{`
-        @keyframes slideInRight  { from { opacity:0; transform:translateX(60px);  } to { opacity:1; transform:translateX(0); } }
-        @keyframes slideInLeft   { from { opacity:0; transform:translateX(-60px); } to { opacity:1; transform:translateX(0); } }
-        @keyframes slideOutLeft  { from { opacity:1; transform:translateX(0); }  to { opacity:0; transform:translateX(-60px); } }
-        @keyframes slideOutRight { from { opacity:1; transform:translateX(0); }  to { opacity:0; transform:translateX(60px);  } }
-      `}</style>
+          {/* Dot navigation */}
+          {filtered.length > 1 && (
+            <div className="flex items-center justify-center gap-2 py-4 border-t border-metal-700/60">
+              {filtered.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => goTo(idx, idx > current ? "right" : "left")}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    idx === current
+                      ? "w-6 h-2 bg-[var(--accent)]"
+                      : "w-2 h-2 bg-metal-600 hover:bg-metal-400"
+                  }`}
+                  aria-label={`Ir al proyecto ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </ScrollReveal>
     </section>
   );
 }

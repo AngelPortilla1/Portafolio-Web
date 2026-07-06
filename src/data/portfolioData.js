@@ -4,22 +4,26 @@ export const personalInfo = {
   logo: "// AngelPortilla.dev",
   eyebrow: "Full Stack Developer & Investigador en IA",
   title: "$ developer --mode full-stack --passion innovation",
-  description: "Desarrollador Full Stack en formación, estudiante de Ingeniería de Sistemas en la Universidad de Pamplona. Construyo soluciones digitales que impactan positivamente, con experiencia en desarrollo web e inteligencia artificial aplicada.",
+  description:
+    "Desarrollador Full Stack en formación, estudiante de Ingeniería de Sistemas en la Universidad de Pamplona. Construyo soluciones digitales que impactan positivamente, con experiencia en desarrollo web e inteligencia artificial aplicada.",
   stats: [
     { num: "3+", label: "Proyectos" },
     { num: "10+", label: "Tecnologías" },
-    { num: "1", label: "Investigación" }
+    { num: "1", label: "Investigación" },
   ],
   about: {
-    profile: "Soy un desarrollador Full Stack apasionado por transformar ideas en código funcional. Me encanta la tecnología, la educación y la innovación. Actualmente expando mis conocimientos en desarrollo web e inteligencia artificial, siempre enfocado en crear proyectos que resuelvan problemas reales y tengan un impacto positivo.",
-    thesis: "Participé como investigador en el grupo CICOM (Ciencias Computacionales) de la Universidad de Pamplona, contribuyendo al proyecto AlfabetIaRural: una iniciativa para fortalecer la alfabetización en IA en comunidades del nororiente colombiano mediante arquitecturas multiagente y etnografía digital.",
-    focus: "Actualmente busco colaborar en proyectos open source y desarrollar soluciones que combinen desarrollo Full Stack con inteligencia artificial. Abierto a nuevos retos y siempre aprendiendo 📚"
+    profile:
+      "Soy un desarrollador Full Stack apasionado por transformar ideas en código funcional. Me encanta la tecnología, la educación y la innovación. Actualmente expando mis conocimientos en desarrollo web e inteligencia artificial, siempre enfocado en crear proyectos que resuelvan problemas reales y tengan un impacto positivo.",
+    thesis:
+      "Participé como investigador en el grupo CICOM (Ciencias Computacionales) de la Universidad de Pamplona, contribuyendo al proyecto AlfabetIaRural: una iniciativa para fortalecer la alfabetización en IA en comunidades del nororiente colombiano mediante arquitecturas multiagente y etnografía digital.",
+    focus:
+      "Actualmente busco colaborar en proyectos open source y desarrollar soluciones que combinen desarrollo Full Stack con inteligencia artificial. Abierto a nuevos retos y siempre aprendiendo 📚",
   },
   contact: {
     email: "angelportihernan019@gmail.com",
     github: "https://github.com/AngelPortilla1",
-    linkedin: "https://www.instagram.com/ag_portilla_/"
-  }
+    linkedin: "https://www.linkedin.com/in/angel-portilla-18921215b/",
+  },
 };
 
 export const projectsData = [
@@ -31,11 +35,13 @@ export const projectsData = [
     date: "2024",
     title: "DevCommunity",
     stackSummary: "HTML5 · CSS3 · JAVASCRIPT",
-    image: "https://github.com/AngelPortilla1/DevCommunity/blob/master/assets/Home.png?raw=true",
-    description: "Plataforma para conectar desarrolladores, compartir recursos y opiniones en comunidad. Interfaz responsive con foco en la experiencia del usuario y la colaboración entre devs.",
+    image:
+      "https://github.com/AngelPortilla1/DevCommunity/blob/master/assets/Home.png?raw=true",
+    description:
+      "Plataforma para conectar desarrolladores, compartir recursos y opiniones en comunidad. Interfaz responsive con foco en la experiencia del usuario y la colaboración entre devs.",
     tags: ["HTML5", "CSS3", "JavaScript", "Comunidad", "Frontend"],
     demoUrl: null,
-    githubUrl: "https://github.com/AngelPortilla1/DevCommunity"
+    githubUrl: "https://github.com/AngelPortilla1/DevCommunity",
   },
   {
     id: "proj-2",
@@ -45,11 +51,13 @@ export const projectsData = [
     date: "2024",
     title: "Sistema Web Ecommerce",
     stackSummary: "REACT · NODE.JS · SQLITE",
-    image: "https://github.com/AngelPortilla1/Ecommerce_React/blob/main/src/assets/Preview_Ecommerce.png?raw=true",
-    description: "Sistema completo de comercio electrónico con gestión de inventario y pagos. Arquitectura Full Stack con React en el frontend y Node.js + SQLite en el backend.",
+    image:
+      "https://github.com/AngelPortilla1/Ecommerce_React/blob/main/src/assets/Preview_Ecommerce.png?raw=true",
+    description:
+      "Sistema completo de comercio electrónico con gestión de inventario y pagos. Arquitectura Full Stack con React en el frontend y Node.js + SQLite en el backend.",
     tags: ["React", "Node.js", "SQLite", "Ecommerce", "REST API"],
     demoUrl: null,
-    githubUrl: "https://github.com/AngelPortilla1/Ecommerce_React"
+    githubUrl: "https://github.com/AngelPortilla1/Ecommerce_React",
   },
   {
     id: "proj-3",
@@ -59,13 +67,24 @@ export const projectsData = [
     date: "2024",
     title: "AlfabetIaRural — Arquitectura Multiagente",
     stackSummary: "PYTHON · FASTAPI · LLMs · MULTIAGENTES",
-    image: "https://github.com/AngelPortilla1/Alfabet-IA-Rural---Etnografia-Aumentada-por-IA/blob/main/fronted-alfabetia/src/assets/ChatEtnografico.png?raw=true",
-    description: "Investigación universitaria en el grupo CICOM (Universidad de Pamplona). Arquitectura de agentes inteligentes para la caracterización de necesidades de alfabetización en IA en comunidades rurales del nororiente colombiano. Integra LLMs, etnografía digital y sistemas multiagente.",
-    tags: ["Python", "FastAPI", "Pydantic", "Multi-Agent", "Generative AI", "Etnografía Digital"],
-    demoUrl: "https://alfabet-ia-rural-etnografia-aumentada-8qj4.onrender.com",
+    image:
+      "https://github.com/AngelPortilla1/Alfabet-IA-Rural---Etnografia-Aumentada-por-IA/blob/main/fronted-alfabetia/src/assets/ChatEtnografico.png?raw=true",
+    description:
+      "Investigación universitaria en el grupo CICOM (Universidad de Pamplona). Arquitectura de agentes inteligentes para la caracterización de necesidades de alfabetización en IA en comunidades rurales del nororiente colombiano.",
+    tags: [
+      "Python",
+      "FastAPI",
+      "Pydantic",
+      "Multi-Agent",
+      "Generative AI",
+      "Etnografía Digital",
+    ],
+    demoUrl:
+      "https://alfabet-ia-rural-etnografia-aumentada-8qj4.onrender.com",
     paperUrl: null,
-    githubUrl: "https://github.com/AngelPortilla1/Arquitectura-Multiagentes-Mediante-Etnografia-digital"
-  }
+    githubUrl:
+      "https://github.com/AngelPortilla1/Arquitectura-Multiagentes-Mediante-Etnografia-digital",
+  },
 ];
 
 export const graphData = {
@@ -104,7 +123,7 @@ export const graphData = {
     backend: { fill: "#697a9b", stroke: "#4a5c78", label: "Backend" },
     db: { fill: "#b0c4e8", stroke: "#8a9bb7", label: "Base de Datos" },
     graph: { fill: "#2b3d4f", stroke: "#1e2d3b", label: "IA" },
-    devops: { fill: "#8a9bb7", stroke: "#4a5c78", label: "DevOps" }
+    devops: { fill: "#8a9bb7", stroke: "#4a5c78", label: "DevOps" },
   },
   groupColorsLight: {
     core: { fill: "#059669", stroke: "#047857", label: "Perfil" },
@@ -112,7 +131,6 @@ export const graphData = {
     backend: { fill: "#8b5cf6", stroke: "#7c3aed", label: "Backend" },
     db: { fill: "#06b6d4", stroke: "#0891b2", label: "Base de Datos" },
     graph: { fill: "#f43f5e", stroke: "#e11d48", label: "IA" },
-    devops: { fill: "#f59e0b", stroke: "#d97706", label: "DevOps" }
-  }
+    devops: { fill: "#f59e0b", stroke: "#d97706", label: "DevOps" },
+  },
 };
-

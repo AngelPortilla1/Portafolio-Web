@@ -3,7 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dev Portfolio | Full Stack & Graph Researcher</title>
+
+    <!-- SEO -->
+    <title>Angel Portilla — Full Stack Developer & Investigador en IA</title>
+    <meta name="description" content="Portafolio de Angel Portilla. Desarrollador Full Stack e investigador en inteligencia artificial. Especialista en React, Python, FastAPI y arquitecturas multiagente." />
+    <meta name="author" content="Angel Giovany Portilla Hernandez" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Angel Portilla — Full Stack Developer & Investigador en IA" />
+    <meta property="og:description" content="Desarrollador Full Stack e investigador en IA. Portafolio profesional con proyectos en React, Python, FastAPI y sistemas multiagente." />
+    <meta property="og:url" content="https://angelportilla.dev" />
+    <meta property="og:locale" content="es_CO" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Angel Portilla — Full Stack Developer" />
+    <meta name="twitter:description" content="Portafolio profesional de desarrollo web e inteligencia artificial." />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#111d27" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8fafb" media="(prefers-color-scheme: light)" />
+
+    <!-- Prevent FOUC for dark mode -->
     <script>
       (function(){
         var t=localStorage.getItem('theme');
@@ -11,9 +34,11 @@
         else if(!t&&window.matchMedia('(prefers-color-scheme:light)').matches){document.documentElement.classList.remove('dark')}
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
