@@ -182,7 +182,7 @@ export default function Projects() {
                         src={proj.image}
                         alt={`Captura de ${proj.title}`}
                         className="w-full h-full object-cover"
-                        loading="lazy"
+                        loading="eager"
                       />
                     ) : (
                       <span>[ Captura: {proj.title} ]</span>

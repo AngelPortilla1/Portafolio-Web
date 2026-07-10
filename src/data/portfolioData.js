@@ -35,8 +35,7 @@ export const projectsData = [
     date: "2024",
     title: "DevCommunity",
     stackSummary: "HTML5 · CSS3 · JAVASCRIPT",
-    image:
-      "https://github.com/AngelPortilla1/DevCommunity/blob/master/assets/Home.png?raw=true",
+    image: "/projects/devcommunity.png",
     description:
       "Plataforma para conectar desarrolladores, compartir recursos y opiniones en comunidad. Interfaz responsive con foco en la experiencia del usuario y la colaboración entre devs.",
     tags: ["HTML5", "CSS3", "JavaScript", "Comunidad", "Frontend"],
@@ -51,8 +50,7 @@ export const projectsData = [
     date: "2024",
     title: "Sistema Web Ecommerce",
     stackSummary: "REACT · NODE.JS · SQLITE",
-    image:
-      "https://github.com/AngelPortilla1/Ecommerce_React/blob/main/src/assets/Preview_Ecommerce.png?raw=true",
+    image: "/projects/ecommerce.png",
     description:
       "Sistema completo de comercio electrónico con gestión de inventario y pagos. Arquitectura Full Stack con React en el frontend y Node.js + SQLite en el backend.",
     tags: ["React", "Node.js", "SQLite", "Ecommerce", "REST API"],
@@ -67,8 +65,7 @@ export const projectsData = [
     date: "2024",
     title: "AlfabetIaRural — Arquitectura Multiagente",
     stackSummary: "PYTHON · FASTAPI · LLMs · MULTIAGENTES",
-    image:
-      "https://github.com/AngelPortilla1/Alfabet-IA-Rural---Etnografia-Aumentada-por-IA/blob/main/fronted-alfabetia/src/assets/ChatEtnografico.png?raw=true",
+    image: "/projects/alfabetia.png",
     description:
       "Investigación universitaria en el grupo CICOM (Universidad de Pamplona). Arquitectura de agentes inteligentes para la caracterización de necesidades de alfabetización en IA en comunidades rurales del nororiente colombiano.",
     tags: [
