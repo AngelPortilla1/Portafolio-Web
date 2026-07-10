@@ -82,8 +82,9 @@ function getCommandResponse(cmd, ts) {
     <Line key={k('h1')}>  <span className="t-green">whoami</span>   <span className="t-dim">— Información del desarrollador</span></Line>,
     <Line key={k('h2')}>  <span className="t-green">contact</span>  <span className="t-dim">— Formas de contacto</span></Line>,
     <Line key={k('h3')}>  <span className="t-green">skills</span>   <span className="t-dim">— Habilidades técnicas</span></Line>,
-    <Line key={k('h4')}>  <span className="t-green">clear</span>    <span className="t-dim">— Limpiar terminal</span></Line>,
-    <Line key={k('h5')}>  <span className="t-green">github</span>   <span className="t-dim">— Abrir GitHub</span></Line>,
+    <Line key={k('h4')}>  <span className="t-green">cv</span>       <span className="t-dim">— Ver Currículum Vitae</span></Line>,
+    <Line key={k('h5')}>  <span className="t-green">clear</span>    <span className="t-dim">— Limpiar terminal</span></Line>,
+    <Line key={k('h6')}>  <span className="t-green">github</span>   <span className="t-dim">— Abrir GitHub</span></Line>,
   ];
 
   if (c === 'contact') return [
@@ -95,6 +96,11 @@ function getCommandResponse(cmd, ts) {
   if (c === 'skills') return [
     <Line key={k('s0')}><SkillBadges skills={['React','Angular','HTML/CSS','Vite','Python','FastAPI','Node.js','NestJS','SQL','Git','GitHub','Figma','Multi-Agent','LLMs']} /></Line>,
   ];
+
+  if (c === 'cv' || c === 'resume') {
+    window.open('/Cv_AngelPortilla.pdf', '_blank');
+    return [<Line key={k('cv0')}><span className="t-green">✔ Abriendo CV...</span></Line>];
+  }
 
   if (c === 'github') {
     window.open(personalInfo.contact.github, '_blank');
@@ -184,10 +190,8 @@ export default function About() {
   }, []);
 
   /* ── Handle user command ── */
-  const handleCommand = (e) => {
-    e.preventDefault();
-    const cmd = inputVal.trim();
-    setInputVal('');
+  const executeCommand = (cmdString) => {
+    const cmd = cmdString.trim();
 
     if (cmd.toLowerCase() === 'clear') {
       setLines([]);
@@ -208,6 +212,17 @@ export default function About() {
 
     const response = getCommandResponse(cmd, ts);
     setLines(prev => [...prev, cmdLine, ...response, <Blank key={`b-${ts}`} />]);
+  };
+
+  const handleCommand = (e) => {
+    e.preventDefault();
+    executeCommand(inputVal);
+    setInputVal('');
+  };
+
+  const handleQuickCommand = (cmd) => {
+    executeCommand(cmd);
+    inputRef.current?.focus();
   };
 
   return (
@@ -283,11 +298,27 @@ export default function About() {
         </div>
       </ScrollReveal>
 
-      {/* Hint */}
-      <p className="font-mono text-[0.6rem] sm:text-[0.65rem] text-metal-600 mt-4 text-center tracking-[0.08em] uppercase">
-        ✦ Terminal interactiva — escribe{' '}
-        <span className="text-[rgba(var(--accent-rgb),0.6)]">help</span> para ver comandos
-      </p>
+      {/* Hint & Quick Commands */}
+      <div className="mt-6 flex flex-col items-center gap-4">
+        <p className="font-mono text-[0.6rem] sm:text-[0.65rem] text-metal-600 text-center tracking-[0.08em] uppercase">
+          ✦ Terminal interactiva — escribe <span className="text-[rgba(var(--accent-rgb),0.6)]">help</span> o usa los botones:
+        </p>
+
+        {showInput && (
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 terminal-line-enter">
+            {['cv', 'contact', 'skills', 'help', 'clear'].map((cmd) => (
+              <button
+                key={cmd}
+                onClick={() => handleQuickCommand(cmd)}
+                className="px-3 py-1.5 text-[0.7rem] font-mono bg-metal-900/40 text-metal-300 border border-metal-800 rounded-md hover:bg-metal-800 hover:text-white hover:border-metal-600 transition-all flex items-center gap-1.5"
+                title={`Ejecutar comando ${cmd}`}
+              >
+                <span className="text-[rgba(var(--accent-rgb),0.8)]">❯</span> {cmd}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 }
