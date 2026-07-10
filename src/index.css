@@ -16,31 +16,31 @@
   --metal-300: 71 85 105;
   --metal-400: 100 116 139;
   --metal-500: 148 163 184;
-  --metal-600: 203 213 225;
-  --metal-700: 226 232 240;
-  --metal-800: 241 245 249;
-  --metal-900: 248 250 252;
+  --metal-600: 160 174 192;
+  --metal-700: 171 184 195;
+  --metal-800: 190 200 210; /* Background para tarjetas */
+  --metal-900: 215 222 230; /* Fondo para inputs y superficies */
 
   /* Semantic colors */
-  --accent:        #059669;
-  --accent-bright: #34d399;
-  --accent-rgb:    5, 150, 105;
+  --accent:        #065f46; /* Esmeralda más oscuro */
+  --accent-bright: #059669;
+  --accent-rgb:    6, 95, 70;
 
   /* Paleta clásica */
-  --color-1: #475569;
-  --color-2: #64748b;
-  --color-3: #94a3b8;
-  --color-4: #cbd5e1;
-  --color-5: #e2e8f0;
+  --color-1: #334155;
+  --color-2: #475569;
+  --color-3: #64748b;
+  --color-4: #94a3b8;
+  --color-5: #cbd5e1;
 
   /* Body & surfaces */
-  --bg-body:    #f8fafb;
-  --bg-dots:    #e2e8f0;
+  --bg-body:    #d5dce4; /* Fondo grisáceo mucho más apagado y mate */
+  --bg-dots:    #9aa6b6; /* Puntos de fondo oscurecidos para el nuevo contraste */
   --body-text:  #1e293b;
 
   /* Hero */
-  --hero-name:       #1e293b;
-  --hero-grad-from:  #f8fafb;
+  --hero-name:       #0f172a;
+  --hero-grad-from:  #d5dce4; /* Mismo color del bg-body para el gradiente */
 
   /* Accent on (text color on accent backgrounds) */
   --accent-on: #ffffff;
