@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowDownTrayIcon, CodeBracketIcon, CpuChipIcon, BeakerIcon } from '@heroicons/react/24/outline';
 import { personalInfo } from '../data/portfolioData';
-import GhostPhoto from '../assets/GhostPhoto.webp';
 import ColorPhoto from '../assets/ColorPhoto.webp';
 import ScrollReveal from './ScrollReveal';
 
@@ -158,21 +157,11 @@ export default function Hero() {
 
               {/* Photo card */}
               <div className="relative w-full h-full rounded-2xl overflow-hidden border border-metal-600/50 shadow-[0_0_40px_rgba(74,92,120,0.3)] transition-all duration-700 group-hover:border-[rgba(var(--accent-rgb),0.6)] group-hover:shadow-[0_0_60px_rgba(var(--accent-rgb),0.25)]">
-                {/* GhostPhoto */}
-                <img
-                  src={GhostPhoto}
-                  alt="Angel Portilla — Developer"
-                  className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ease-in-out opacity-100 group-hover:opacity-0"
-                  loading="eager"
-                  width="360"
-                  height="420"
-                />
-
-                {/* ColorPhoto — hover reveal */}
+                {/* Photo — CSS Filter Reveal */}
                 <img
                   src={ColorPhoto}
-                  alt="Angel Portilla — Developer color"
-                  className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100 scale-[1.03]"
+                  alt="Angel Portilla — Developer"
+                  className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-in-out grayscale group-hover:grayscale-0 scale-100 group-hover:scale-[1.03]"
                   loading="eager"
                   width="360"
                   height="420"
