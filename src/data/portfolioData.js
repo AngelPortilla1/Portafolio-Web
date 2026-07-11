@@ -35,7 +35,7 @@ export const projectsData = [
     date: "2024",
     title: "DevCommunity",
     stackSummary: "HTML5 · CSS3 · JAVASCRIPT",
-    image: "/projects/devcommunity.png",
+    image: "/projects/devcommunity.webp",
     description:
       "Plataforma para conectar desarrolladores, compartir recursos y opiniones en comunidad. Interfaz responsive con foco en la experiencia del usuario y la colaboración entre devs.",
     tags: ["HTML5", "CSS3", "JavaScript", "Comunidad", "Frontend"],
@@ -50,7 +50,7 @@ export const projectsData = [
     date: "2024",
     title: "Sistema Web Ecommerce",
     stackSummary: "REACT · NODE.JS · SQLITE",
-    image: "/projects/ecommerce.png",
+    image: "/projects/ecommerce.webp",
     description:
       "Sistema completo de comercio electrónico con gestión de inventario y pagos. Arquitectura Full Stack con React en el frontend y Node.js + SQLite en el backend.",
     tags: ["React", "Node.js", "SQLite", "Ecommerce", "REST API"],
@@ -65,7 +65,7 @@ export const projectsData = [
     date: "2024",
     title: "AlfabetIaRural — Arquitectura Multiagente",
     stackSummary: "PYTHON · FASTAPI · LLMs · MULTIAGENTES",
-    image: "/projects/alfabetia.png",
+    image: "/projects/alfabetia.webp",
     description:
       "Investigación universitaria en el grupo CICOM (Universidad de Pamplona). Arquitectura de agentes inteligentes para la caracterización de necesidades de alfabetización en IA en comunidades rurales del nororiente colombiano.",
     tags: [

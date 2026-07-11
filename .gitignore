@@ -24,3 +24,4 @@ npm-debug.log*
 
 # Vite cache
 .vite/
+scripts/optimize-images.mjs
