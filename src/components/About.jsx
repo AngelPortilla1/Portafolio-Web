@@ -98,7 +98,7 @@ function getCommandResponse(cmd, ts) {
   ];
 
   if (c === 'cv' || c === 'resume') {
-    window.open('/Cv_AngelPortilla.pdf', '_blank');
+    window.open('/Cv_AngelPortilla_current.pdf', '_blank');
     return [<Line key={k('cv0')}><span className="t-green">✔ Abriendo CV...</span></Line>];
   }
 
