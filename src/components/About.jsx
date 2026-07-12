@@ -306,7 +306,7 @@ export default function About() {
 
         {showInput && (
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 terminal-line-enter">
-            {['cv', 'contact', 'skills', 'help', 'clear'].map((cmd) => (
+            {['whoami', 'cv', 'contact', 'skills', 'help', 'clear'].map((cmd) => (
               <button
                 key={cmd}
                 onClick={() => handleQuickCommand(cmd)}
