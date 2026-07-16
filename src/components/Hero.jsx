@@ -130,7 +130,7 @@ export default function Hero() {
                 Ver proyectos
               </a>
               <a
-                href="/Cv_AngelPortilla_current.pdf"
+                href="/Cv_AngelPortilla_Bc.pdf"
                 download
                 className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-transparent text-[var(--accent)] border border-[rgba(var(--accent-rgb),0.5)] text-[0.85rem] font-medium rounded-md no-underline transition-all duration-200 hover:border-[var(--accent)] hover:bg-[rgba(var(--accent-rgb),0.1)] hover:text-[var(--accent-bright)] w-full sm:w-auto"
               >
