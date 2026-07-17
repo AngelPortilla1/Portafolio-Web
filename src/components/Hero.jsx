@@ -3,6 +3,7 @@ import { ArrowDownTrayIcon, CodeBracketIcon, CpuChipIcon, BeakerIcon } from '@he
 import { personalInfo } from '../data/portfolioData';
 import ColorPhoto from '../assets/ColorPhoto.webp';
 import ScrollReveal from './ScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 /* ── Animated counter hook ── */
 function useCountUp(target, duration = 1600) {
@@ -80,6 +81,8 @@ function StatCard({ stat, index }) {
 }
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="hero"
@@ -127,7 +130,7 @@ export default function Hero() {
                 href="#projects"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-[var(--accent)] text-[var(--accent-on)] text-[0.85rem] font-bold rounded-md tracking-[0.03em] no-underline transition-all duration-200 hover:bg-[var(--accent-bright)] hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(var(--accent-rgb),0.4)] w-full sm:w-auto"
               >
-                Ver proyectos
+                {t('hero_cta_projects')}
               </a>
               <a
                 href={personalInfo.cvPath}
@@ -135,7 +138,7 @@ export default function Hero() {
                 className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-transparent text-[var(--accent)] border border-[rgba(var(--accent-rgb),0.5)] text-[0.85rem] font-medium rounded-md no-underline transition-all duration-200 hover:border-[var(--accent)] hover:bg-[rgba(var(--accent-rgb),0.1)] hover:text-[var(--accent-bright)] w-full sm:w-auto"
               >
                 <ArrowDownTrayIcon className="w-4 h-4" />
-                Descargar CV
+                {t('hero_cta_cv')}
               </a>
             </div>
           </ScrollReveal>

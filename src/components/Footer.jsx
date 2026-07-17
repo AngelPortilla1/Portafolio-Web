@@ -1,13 +1,7 @@
 import React from 'react';
 import { personalInfo } from '../data/portfolioData';
 import LogoAP from '../assets/LogoAP.webp';
-
-const footerNav = [
-  { href: '#about', label: 'Sobre mí' },
-  { href: '#projects', label: 'Proyectos' },
-  { href: '#stack', label: 'Stack' },
-  { href: '#contact', label: 'Contacto' },
-];
+import { useLanguage } from '../context/LanguageContext';
 
 const socialLinks = [
   {
@@ -45,6 +39,15 @@ const socialLinks = [
 const techStack = ['React', 'Vite', 'Tailwind CSS', 'Python'];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
+  const footerNav = [
+    { href: '#about',    label: t('footer_nav_about') },
+    { href: '#projects', label: t('footer_nav_projects') },
+    { href: '#stack',    label: t('footer_nav_stack') },
+    { href: '#contact',  label: t('footer_nav_contact') },
+  ];
+
   return (
     <footer
       className="relative overflow-hidden transition-colors duration-300"
@@ -94,7 +97,7 @@ export default function Footer() {
             <a
               href="#hero"
               className="inline-flex items-center gap-2.5 no-underline group w-fit"
-              aria-label="Ir al inicio"
+              aria-label={t('footer_logo_aria')}
             >
               <div
                 className="relative"
@@ -119,7 +122,7 @@ export default function Footer() {
             </a>
 
             <p className="text-[0.78rem] text-metal-500 leading-relaxed max-w-[260px]">
-              Full Stack Developer &amp; Investigador en IA. Construyendo soluciones que impactan.
+              {t('footer_tagline')}
             </p>
 
             {/* Status badge */}
@@ -130,7 +133,7 @@ export default function Footer() {
                 aria-hidden="true"
               />
               <span className="font-mono text-[0.62rem] text-[var(--accent)] tracking-[0.1em] uppercase font-semibold">
-                Disponible para proyectos
+                {t('footer_available')}
               </span>
             </div>
           </div>
@@ -143,7 +146,7 @@ export default function Footer() {
                 style={{ background: 'var(--accent)' }}
                 aria-hidden="true"
               />
-              Navegación
+              {t('footer_nav_title')}
             </h4>
             <ul className="flex flex-col gap-2.5 list-none">
               {footerNav.map(link => (
@@ -171,7 +174,7 @@ export default function Footer() {
                 style={{ background: 'var(--accent)' }}
                 aria-hidden="true"
               />
-              Conectar
+              {t('footer_social_title')}
             </h4>
             <div className="flex flex-col gap-3">
               {socialLinks.map(link => (
@@ -235,7 +238,7 @@ export default function Footer() {
 
           {/* Tech stack pills */}
           <div className="flex items-center gap-1.5 flex-wrap justify-center">
-            <span className="font-mono text-[0.58rem] text-metal-600 mr-1">Hecho con</span>
+            <span className="font-mono text-[0.58rem] text-metal-600 mr-1">{t('footer_made_with')}</span>
             {techStack.map((tech) => (
               <span
                 key={tech}

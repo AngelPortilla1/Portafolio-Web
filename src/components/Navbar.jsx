@@ -2,18 +2,21 @@ import React, { useState, useEffect, useCallback } from 'react';
 import LogoAP from '../assets/LogoAP.webp';
 import { personalInfo } from '../data/portfolioData';
 import ThemeToggle from './ThemeToggle';
-
-const NAV_LINKS = [
-  { href: '#about', label: 'Sobre mí' },
-  { href: '#projects', label: 'Proyectos' },
-  { href: '#stack', label: 'Stack' },
-  { href: '#contact', label: 'Contacto' },
-];
+import LanguageToggle from './LanguageToggle';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Navbar() {
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+
+  const NAV_LINKS = [
+    { href: '#about',    labelKey: 'nav_about' },
+    { href: '#projects', labelKey: 'nav_projects' },
+    { href: '#stack',    labelKey: 'nav_stack' },
+    { href: '#contact',  labelKey: 'nav_contact' },
+  ];
 
   /* ── Scroll effects: shrink + active section detection ── */
   const handleScroll = useCallback(() => {
@@ -30,7 +33,7 @@ export default function Navbar() {
       }
     }
     setActiveSection(current);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -68,14 +71,14 @@ export default function Navbar() {
         scrolled ? 'navbar-scrolled' : ''
       }`}
       role="navigation"
-      aria-label="Navegación principal"
+      aria-label={t('nav_ariaLabel')}
     >
       <div className="h-[60px] flex items-center justify-between px-6 sm:px-8 bg-metal-900/90 backdrop-blur-md border-b border-metal-700/50 transition-colors duration-300">
         {/* Logo */}
         <a
           href="#hero"
           className="flex items-center gap-2 font-mono text-[0.85rem] font-semibold text-metal-200 tracking-[0.05em] no-underline"
-          aria-label="Ir al inicio"
+          aria-label={t('nav_goHome')}
         >
           <img
             src={LogoAP}
@@ -88,7 +91,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           <ul className="flex gap-8 list-none" role="menubar">
             {NAV_LINKS.map(link => (
               <li key={link.href} role="none">
@@ -102,23 +105,29 @@ export default function Navbar() {
                       : 'text-metal-400'
                   }`}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                 </a>
               </li>
             ))}
           </ul>
-          <ThemeToggle />
+
+          {/* Controls */}
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
 
-        {/* Mobile: theme toggle + hamburger */}
-        <div className="flex md:hidden items-center gap-3">
+        {/* Mobile: language toggle + theme toggle + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          <LanguageToggle />
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(prev => !prev)}
             className={`w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-lg border border-metal-600/50 bg-metal-800/60 transition-colors cursor-pointer ${
               mobileOpen ? 'hamburger-open' : ''
             }`}
-            aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-label={mobileOpen ? t('nav_closeMenu') : t('nav_openMenu')}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
           >
@@ -150,7 +159,7 @@ export default function Navbar() {
                     : 'text-metal-300'
                 }`}
               >
-                {link.label}
+                {t(link.labelKey)}
               </a>
             </li>
           ))}

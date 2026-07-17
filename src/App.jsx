@@ -6,13 +6,16 @@ import Projects from './components/Projects';
 import TechGraph from './components/TechGraph';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { useLanguage } from './context/LanguageContext';
 
 export default function App() {
+  const { t } = useLanguage();
+
   return (
     <div className="portfolio-app">
       {/* Skip navigation for keyboard users */}
       <a href="#about" className="skip-nav">
-        Saltar al contenido
+        {t('skipNav')}
       </a>
 
       <Navbar />
@@ -29,3 +32,4 @@ export default function App() {
     </div>
   );
 }
+

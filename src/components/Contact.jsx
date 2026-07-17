@@ -8,8 +8,10 @@ import {
 } from '@heroicons/react/24/outline';
 import { personalInfo } from '../data/portfolioData';
 import ScrollReveal from './ScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -24,8 +26,8 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, message } = formState;
-    const subject = encodeURIComponent(`Contacto desde portafolio — ${name}`);
-    const body = encodeURIComponent(`Hola Angel,\n\nSoy ${name} (${email}).\n\n${message}\n\nSaludos.`);
+    const subject = encodeURIComponent(`${t('contact_subject')} ${name}`);
+    const body = encodeURIComponent(`${t('contact_body_greeting')} ${name} (${email}).${t('contact_body_closing')}\n\n${message}`);
     window.open(`mailto:${personalInfo.contact.email}?subject=${subject}&body=${body}`, '_self');
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
@@ -59,7 +61,7 @@ export default function Contact() {
     <section
       id="contact"
       className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1000px] mx-auto"
-      aria-label="Contacto"
+      aria-label={t('contact_section_label')}
     >
       {/* Header */}
       <ScrollReveal>
@@ -68,10 +70,10 @@ export default function Contact() {
             // CONTACT
           </div>
           <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-            Hablemos
+            {t('contact_heading')}
           </h2>
           <p className="text-[0.85rem] sm:text-[0.9rem] text-metal-300/80 mt-3 max-w-[520px] leading-relaxed">
-            ¿Tienes un proyecto en mente, una propuesta de colaboración, o simplemente quieres conectar? Me encantaría escucharte.
+            {t('contact_subtitle')}
           </p>
         </div>
       </ScrollReveal>
@@ -85,7 +87,7 @@ export default function Contact() {
           >
             <div>
               <label htmlFor="contact-name" className="block font-mono text-[0.68rem] text-metal-400 uppercase tracking-[0.1em] mb-2">
-                Nombre
+                {t('contact_label_name')}
               </label>
               <input
                 id="contact-name"
@@ -94,14 +96,14 @@ export default function Contact() {
                 required
                 value={formState.name}
                 onChange={handleChange}
-                placeholder="Tu nombre"
+                placeholder={t('contact_placeholder_name')}
                 className="contact-input"
               />
             </div>
 
             <div>
               <label htmlFor="contact-email" className="block font-mono text-[0.68rem] text-metal-400 uppercase tracking-[0.1em] mb-2">
-                Email
+                {t('contact_label_email')}
               </label>
               <input
                 id="contact-email"
@@ -117,7 +119,7 @@ export default function Contact() {
 
             <div>
               <label htmlFor="contact-message" className="block font-mono text-[0.68rem] text-metal-400 uppercase tracking-[0.1em] mb-2">
-                Mensaje
+                {t('contact_label_message')}
               </label>
               <textarea
                 id="contact-message"
@@ -125,7 +127,7 @@ export default function Contact() {
                 required
                 value={formState.message}
                 onChange={handleChange}
-                placeholder="Cuéntame sobre tu proyecto o idea..."
+                placeholder={t('contact_placeholder_message')}
                 className="contact-input contact-textarea"
                 rows={5}
               />
@@ -138,12 +140,12 @@ export default function Contact() {
               {submitted ? (
                 <>
                   <CheckCircleIcon className="w-5 h-5" />
-                  ¡Mensaje preparado!
+                  {t('contact_btn_sent')}
                 </>
               ) : (
                 <>
                   <PaperAirplaneIcon className="w-4 h-4" />
-                  Enviar mensaje
+                  {t('contact_btn_send')}
                 </>
               )}
             </button>

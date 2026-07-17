@@ -12,23 +12,40 @@ import {
 } from "@heroicons/react/24/outline";
 import { projectsData } from "../data/portfolioData";
 import ScrollReveal from "./ScrollReveal";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Projects() {
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(null);
   const [animating, setAnimating] = useState(false);
   const timeoutRef = useRef(null);
 
+  /* Map project descriptions and badges via translation keys */
+  const descriptionKeys = ['proj1_description', 'proj2_description', 'proj3_description'];
+  const badgeKeys = {
+    'FULLSTACK':      'badge_fullstack',
+    'EN DESARROLLO':  'badge_in_progress',
+    'INVESTIGACIÓN':  'badge_research',
+  };
+
+  /* Enrich projectsData with translated text at render time */
+  const localizedProjects = projectsData.map((p, i) => ({
+    ...p,
+    description: t(descriptionKeys[i]) ?? p.description,
+    badge: t(badgeKeys[p.badge]) ?? p.badge,
+  }));
+
   const filtered = searchTerm.trim()
-    ? projectsData.filter(
+    ? localizedProjects.filter(
         (p) =>
           p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
           p.stackSummary.toLowerCase().includes(searchTerm.toLowerCase()) ||
           p.tags.some((t) => t.toLowerCase().includes(searchTerm.toLowerCase()))
       )
-    : projectsData;
+    : localizedProjects;
 
   const goTo = useCallback(
     (idx, dir) => {
@@ -64,7 +81,7 @@ export default function Projects() {
     <section
       id="projects"
       className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1000px] mx-auto"
-      aria-label="Proyectos"
+      aria-label={t('projects_section_label')}
     >
       {/* Section header */}
       <ScrollReveal>
@@ -73,7 +90,7 @@ export default function Projects() {
             // PROJECT_LOG
           </div>
           <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-            Proyectos
+            {t('projects_heading')}
           </h2>
         </div>
       </ScrollReveal>
@@ -86,11 +103,11 @@ export default function Projects() {
             <div className="flex items-center gap-2 sm:gap-3">
               <FolderOpenIcon className="w-5 h-5 text-metal-400" />
               <span className="font-mono text-[0.72rem] sm:text-[0.8rem] font-semibold text-metal-200 uppercase tracking-[0.08em]">
-                Registro de Proyectos
+                {t('projects_log_title')}
               </span>
             </div>
             <span className="font-mono text-[0.68rem] sm:text-[0.72rem] text-metal-500">
-              {filtered.length > 0 ? `${current + 1} / ${filtered.length}` : "0 / 0"}&nbsp;&nbsp;proyectos
+              {filtered.length > 0 ? `${current + 1} / ${filtered.length}` : "0 / 0"}&nbsp;&nbsp;{t('projects_counter')}
             </span>
           </div>
 
@@ -101,17 +118,17 @@ export default function Projects() {
               <input
                 type="text"
                 className="w-full bg-metal-900 border border-metal-700/60 rounded-md py-2 sm:py-2.5 pl-9 pr-3 font-mono text-[0.75rem] sm:text-[0.8rem] text-metal-200 transition-all duration-200 outline-none focus:border-metal-500 placeholder:text-metal-600"
-                placeholder="Buscar proyecto..."
+                placeholder={t('projects_search_placeholder')}
                 value={searchTerm}
                 onChange={handleSearch}
-                aria-label="Buscar proyectos"
+                aria-label={t('projects_search_aria')}
               />
             </div>
             <button
               onClick={prev}
               disabled={filtered.length <= 1}
               className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed shrink-0 cursor-pointer"
-              aria-label="Proyecto anterior"
+              aria-label={t('projects_prev')}
             >
               <ChevronLeftIcon className="w-4 h-4" />
             </button>
@@ -119,7 +136,7 @@ export default function Projects() {
               onClick={next}
               disabled={filtered.length <= 1}
               className="flex items-center justify-center w-9 h-9 rounded-md bg-metal-900 border border-metal-700/60 text-metal-400 transition-all duration-150 hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)] disabled:opacity-30 disabled:cursor-not-allowed shrink-0 cursor-pointer"
-              aria-label="Proyecto siguiente"
+              aria-label={t('projects_next')}
             >
               <ChevronRightIcon className="w-4 h-4" />
             </button>
@@ -129,7 +146,7 @@ export default function Projects() {
           <div className="relative overflow-hidden min-h-[420px] sm:min-h-[520px]">
             {filtered.length === 0 ? (
               <div className="py-16 text-center font-mono text-metal-600 text-[0.85rem]">
-                No se encontraron proyectos que coincidan con &ldquo;{searchTerm}&rdquo;
+                {t('projects_not_found')} &ldquo;{searchTerm}&rdquo;
               </div>
             ) : proj ? (
               <div
@@ -180,12 +197,12 @@ export default function Projects() {
                     {proj.image ? (
                       <img
                         src={proj.image}
-                        alt={`Captura de ${proj.title}`}
+                        alt={`${t('proj_img_alt')} ${proj.title}`}
                         className="w-full h-full object-cover"
                         loading="eager"
                       />
                     ) : (
-                      <span>[ Captura: {proj.title} ]</span>
+                      <span>[ {t('proj_img_placeholder')} {proj.title} ]</span>
                     )}
                   </div>
 
@@ -194,7 +211,7 @@ export default function Projects() {
                     <div className="bg-metal-900 border border-metal-700/60 rounded-md px-3 sm:px-4 py-3 flex-1">
                       <div className="font-mono text-[0.65rem] sm:text-[0.68rem] font-semibold text-metal-500 uppercase tracking-[0.1em] mb-1.5 flex items-center gap-1.5">
                         <DocumentTextIcon className="w-3.5 h-3.5" />
-                        DESCRIPCIÓN:
+                        {t('projects_desc_label')}
                       </div>
                       <div className="font-mono text-[0.72rem] sm:text-[0.78rem] text-metal-300 leading-[1.6]">
                         {proj.description}
@@ -221,7 +238,7 @@ export default function Projects() {
                           rel="noreferrer"
                         >
                           <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 stroke-[2.5px]" />
-                          Ver demo
+                          {t('projects_demo')}
                         </a>
                       )}
                       {proj.paperUrl && (
@@ -232,7 +249,7 @@ export default function Projects() {
                           rel="noreferrer"
                         >
                           <DocumentIcon className="w-3.5 h-3.5" />
-                          Ver paper
+                          {t('projects_paper')}
                         </a>
                       )}
                       {proj.githubUrl && (
@@ -265,7 +282,7 @@ export default function Projects() {
                       ? "w-6 h-2 bg-[var(--accent)]"
                       : "w-2 h-2 bg-metal-600 hover:bg-metal-400"
                   }`}
-                  aria-label={`Ir al proyecto ${idx + 1}`}
+                  aria-label={`${t('projects_go_to')} ${idx + 1}`}
                 />
               ))}
             </div>

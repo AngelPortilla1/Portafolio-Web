@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { personalInfo } from '../data/portfolioData';
 import ScrollReveal from './ScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 /* ── Helpers ─────────────────────────────────────────────────── */
 const PROMPT_EL = (
@@ -35,23 +36,23 @@ function SkillBadges({ skills }) {
 }
 
 /* ── Script de la terminal ───────────────────────────────────── */
-function buildScript() {
+function buildScript(t) {
   const { about } = personalInfo;
   return [
-    { delay: 0,   node: <Line key="c0"><span className="t-dim"># Bienvenido al perfil interactivo de Angel Portilla</span></Line> },
+    { delay: 0,   node: <Line key="c0"><span className="t-dim">{t('term_welcome')}</span></Line> },
     { delay: 400, node: <Line key="c1">{PROMPT_EL}<span className="t-cmd">whoami</span></Line> },
     { delay: 900, node: <Line key="c2"><span className="t-cyan">name      </span><span className="t-dim"> · </span><span className="t-yellow">Angel Portilla</span></Line> },
-    { delay: 200, node: <Line key="c3"><span className="t-cyan">role      </span><span className="t-dim"> · </span><span className="t-green">Full Stack Developer &amp; Investigador IA</span></Line> },
-    { delay: 200, node: <Line key="c4"><span className="t-cyan">university</span><span className="t-dim"> · </span><span className="t-white">Universidad de Pamplona</span></Line> },
-    { delay: 200, node: <Line key="c5"><span className="t-cyan">location  </span><span className="t-dim"> · </span><span className="t-white">Pamplona, Colombia 🇨🇴</span></Line> },
+    { delay: 200, node: <Line key="c3"><span className="t-cyan">role      </span><span className="t-dim"> · </span><span className="t-green">{t('term_role')}</span></Line> },
+    { delay: 200, node: <Line key="c4"><span className="t-cyan">university</span><span className="t-dim"> · </span><span className="t-white">{t('term_university')}</span></Line> },
+    { delay: 200, node: <Line key="c5"><span className="t-cyan">location  </span><span className="t-dim"> · </span><span className="t-white">{t('term_location')}</span></Line> },
     { delay: 200, node: <Line key="c6"><span className="t-cyan">bio       </span><span className="t-dim"> · </span><span className="t-gray">{about.profile}</span></Line> },
 
     { delay: 500, node: <Blank key="b1" /> },
 
     { delay: 0,   node: <Line key="c7">{PROMPT_EL}<span className="t-cmd">cat research.txt</span></Line> },
-    { delay: 800, node: <Line key="c8"><span className="t-purple">██  AlfabetIaRural — Investigación CICOM</span></Line> },
+    { delay: 800, node: <Line key="c8"><span className="t-purple">{t('term_research_title')}</span></Line> },
     { delay: 180, node: <Line key="c9"><span className="t-dim">    {about.thesis}</span></Line> },
-    { delay: 200, node: <Line key="c10"><span className="t-green">✔  Publicado en grupo CICOM · Universidad de Pamplona</span></Line> },
+    { delay: 200, node: <Line key="c10"><span className="t-green">{t('term_research_pub')}</span></Line> },
 
     { delay: 500, node: <Blank key="b2" /> },
 
@@ -65,26 +66,26 @@ function buildScript() {
     { delay: 500, node: <Blank key="b3" /> },
 
     { delay: 0,   node: <Line key="c17">{PROMPT_EL}<span className="t-cmd">echo $FOCUS</span></Line> },
-    { delay: 700, node: <Line key="c18"><span className="t-orange">→</span>  <span className="t-white">{about.focus}</span></Line> },
+    { delay: 700, node: <Line key="c18"><span className="t-orange">{t('term_focus_prompt')}</span>  <span className="t-white">{about.focus}</span></Line> },
 
     { delay: 400, node: <Blank key="b4" /> },
-    { delay: 0,   node: <Line key="c19"><span className="t-dim">── Escribe <span className="t-green">help</span> para ver comandos disponibles ──</span></Line> },
+    { delay: 0,   node: <Line key="c19"><span className="t-dim">{t('term_prompt_end')} <span className="t-green">{t('term_prompt_help')}</span> {t('term_prompt_end2')}</span></Line> },
   ];
 }
 
 /* ── Respuestas a comandos del usuario ───────────────────────── */
-function getCommandResponse(cmd, ts) {
+function getCommandResponse(cmd, ts, t) {
   const c = cmd.trim().toLowerCase();
   const k = (id) => `${ts}-${id}`;
 
   if (c === 'help') return [
-    <Line key={k('h0')}><span className="t-cyan">Comandos disponibles:</span></Line>,
-    <Line key={k('h1')}>  <span className="t-green">whoami</span>   <span className="t-dim">— Información del desarrollador</span></Line>,
-    <Line key={k('h2')}>  <span className="t-green">contact</span>  <span className="t-dim">— Formas de contacto</span></Line>,
-    <Line key={k('h3')}>  <span className="t-green">skills</span>   <span className="t-dim">— Habilidades técnicas</span></Line>,
-    <Line key={k('h4')}>  <span className="t-green">cv</span>       <span className="t-dim">— Ver Currículum Vitae</span></Line>,
-    <Line key={k('h5')}>  <span className="t-green">clear</span>    <span className="t-dim">— Limpiar terminal</span></Line>,
-    <Line key={k('h6')}>  <span className="t-green">github</span>   <span className="t-dim">— Abrir GitHub</span></Line>,
+    <Line key={k('h0')}><span className="t-cyan">{t('cmd_help_title')}</span></Line>,
+    <Line key={k('h1')}>  <span className="t-green">whoami</span>   <span className="t-dim">{t('cmd_help_whoami')}</span></Line>,
+    <Line key={k('h2')}>  <span className="t-green">contact</span>  <span className="t-dim">{t('cmd_help_contact')}</span></Line>,
+    <Line key={k('h3')}>  <span className="t-green">skills</span>   <span className="t-dim">{t('cmd_help_skills')}</span></Line>,
+    <Line key={k('h4')}>  <span className="t-green">cv</span>       <span className="t-dim">{t('cmd_help_cv')}</span></Line>,
+    <Line key={k('h5')}>  <span className="t-green">clear</span>    <span className="t-dim">{t('cmd_help_clear')}</span></Line>,
+    <Line key={k('h6')}>  <span className="t-green">github</span>   <span className="t-dim">{t('cmd_help_github')}</span></Line>,
   ];
 
   if (c === 'contact') return [
@@ -99,23 +100,23 @@ function getCommandResponse(cmd, ts) {
 
   if (c === 'cv' || c === 'resume') {
     window.open('/Cv_AngelPortilla_current.pdf', '_blank');
-    return [<Line key={k('cv0')}><span className="t-green">✔ Abriendo CV...</span></Line>];
+    return [<Line key={k('cv0')}><span className="t-green">{t('cmd_cv_opening')}</span></Line>];
   }
 
   if (c === 'github') {
     window.open(personalInfo.contact.github, '_blank');
-    return [<Line key={k('g0')}><span className="t-green">✔ Abriendo GitHub…</span></Line>];
+    return [<Line key={k('g0')}><span className="t-green">{t('cmd_github_opening')}</span></Line>];
   }
 
   if (c === 'whoami') return [
     <Line key={k('w0')}><span className="t-cyan">name </span><span className="t-dim"> · </span><span className="t-yellow">Angel Portilla</span></Line>,
-    <Line key={k('w1')}><span className="t-cyan">role </span><span className="t-dim"> · </span><span className="t-green">Full Stack Developer &amp; Investigador IA</span></Line>,
+    <Line key={k('w1')}><span className="t-cyan">role </span><span className="t-dim"> · </span><span className="t-green">{t('term_role')}</span></Line>,
   ];
 
   if (c === '') return [];
 
   return [
-    <Line key={k('e0')}><span className="t-dim">command not found: </span><span className="t-orange">{cmd}</span><span className="t-dim">  — escribe <span className="t-green">help</span></span></Line>,
+    <Line key={k('e0')}><span className="t-dim">{t('cmd_not_found')} </span><span className="t-orange">{cmd}</span><span className="t-dim">{t('cmd_not_found_hint')} <span className="t-green">help</span></span></Line>,
   ];
 }
 
@@ -123,6 +124,8 @@ function getCommandResponse(cmd, ts) {
    COMPONENTE PRINCIPAL
 ══════════════════════════════════════════════════════════════ */
 export default function About() {
+  const { t, language } = useLanguage();
+
   const sectionRef  = useRef(null);
   const bodyRef     = useRef(null);
   const inputRef    = useRef(null);
@@ -147,12 +150,30 @@ export default function About() {
     }
   }, [showInput]);
 
+  /* ── Reset terminal on language change ── */
+  useEffect(() => {
+    // Clear and restart the sequence
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setLines([]);
+    setShowInput(false);
+    startedRef.current = false;
+
+    const el = sectionRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (isVisible) {
+      setTimeout(() => runSequence(), 300);
+    }
+  }, [language]); // eslint-disable-line react-hooks/exhaustive-deps
+
   /* ── Typewriter sequence ── */
   const runSequence = () => {
     if (startedRef.current) return;
     startedRef.current = true;
 
-    const script = buildScript();
+    const script = buildScript(t);
     let cumulative = 0;
 
     script.forEach((item) => {
@@ -187,7 +208,7 @@ export default function About() {
       observer.disconnect();
       timersRef.current.forEach(clearTimeout);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* ── Handle user command ── */
   const executeCommand = (cmdString) => {
@@ -210,7 +231,7 @@ export default function About() {
       return;
     }
 
-    const response = getCommandResponse(cmd, ts);
+    const response = getCommandResponse(cmd, ts, t);
     setLines(prev => [...prev, cmdLine, ...response, <Blank key={`b-${ts}`} />]);
   };
 
@@ -230,7 +251,7 @@ export default function About() {
       id="about"
       className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1000px] mx-auto"
       ref={sectionRef}
-      aria-label="Sobre mí"
+      aria-label={t('about_section_label')}
     >
       {/* Header */}
       <ScrollReveal>
@@ -239,7 +260,7 @@ export default function About() {
             // ABOUT_ME
           </div>
           <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-            Sobre mí
+            {t('about_heading')}
           </h2>
         </div>
       </ScrollReveal>
@@ -250,7 +271,7 @@ export default function About() {
           className="terminal-window"
           onClick={() => inputRef.current?.focus()}
           role="application"
-          aria-label="Terminal interactiva"
+          aria-label={t('about_terminal_label')}
         >
           {/* Chrome */}
           <div className="terminal-header">
@@ -284,12 +305,12 @@ export default function About() {
                   className="terminal-input"
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="escribe un comando…"
+                  placeholder={t('about_input_placeholder')}
                   spellCheck={false}
                   autoComplete="off"
                   autoCorrect="off"
                   autoCapitalize="off"
-                  aria-label="Ingresa un comando de terminal"
+                  aria-label={t('about_input_aria')}
                 />
                 <span className="terminal-cursor" style={{ flexShrink: 0 }} aria-hidden="true" />
               </form>
@@ -301,7 +322,7 @@ export default function About() {
       {/* Hint & Quick Commands */}
       <div className="mt-6 flex flex-col items-center gap-4">
         <p className="font-mono text-[0.6rem] sm:text-[0.65rem] text-metal-600 text-center tracking-[0.08em] uppercase">
-          ✦ Terminal interactiva — escribe <span className="text-[rgba(var(--accent-rgb),0.6)]">help</span> o usa los botones:
+          {t('about_hint')} <span className="text-[rgba(var(--accent-rgb),0.6)]">{t('about_hint_help')}</span> {t('about_hint_suffix')}
         </p>
 
         {showInput && (
@@ -311,7 +332,7 @@ export default function About() {
                 key={cmd}
                 onClick={() => handleQuickCommand(cmd)}
                 className="px-3 py-1.5 text-[0.7rem] font-mono bg-metal-900/40 text-metal-300 border border-metal-800 rounded-md hover:bg-metal-800 hover:text-white hover:border-metal-600 transition-all flex items-center gap-1.5"
-                title={`Ejecutar comando ${cmd}`}
+                title={`Run ${cmd}`}
               >
                 <span className="text-[rgba(var(--accent-rgb),0.8)]">❯</span> {cmd}
               </button>
