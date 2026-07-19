@@ -37,7 +37,6 @@ function SkillBadges({ skills }) {
 
 /* ── Script de la terminal ───────────────────────────────────── */
 function buildScript(t) {
-  const { about } = personalInfo;
   return [
     { delay: 0,   node: <Line key="c0"><span className="t-dim">{t('term_welcome')}</span></Line> },
     { delay: 400, node: <Line key="c1">{PROMPT_EL}<span className="t-cmd">whoami</span></Line> },
@@ -45,13 +44,13 @@ function buildScript(t) {
     { delay: 200, node: <Line key="c3"><span className="t-cyan">role      </span><span className="t-dim"> · </span><span className="t-green">{t('term_role')}</span></Line> },
     { delay: 200, node: <Line key="c4"><span className="t-cyan">university</span><span className="t-dim"> · </span><span className="t-white">{t('term_university')}</span></Line> },
     { delay: 200, node: <Line key="c5"><span className="t-cyan">location  </span><span className="t-dim"> · </span><span className="t-white">{t('term_location')}</span></Line> },
-    { delay: 200, node: <Line key="c6"><span className="t-cyan">bio       </span><span className="t-dim"> · </span><span className="t-gray">{about.profile}</span></Line> },
+    { delay: 200, node: <Line key="c6"><span className="t-cyan">bio       </span><span className="t-dim"> · </span><span className="t-gray">{t('about_profile')}</span></Line> },
 
     { delay: 500, node: <Blank key="b1" /> },
 
     { delay: 0,   node: <Line key="c7">{PROMPT_EL}<span className="t-cmd">cat research.txt</span></Line> },
     { delay: 800, node: <Line key="c8"><span className="t-purple">{t('term_research_title')}</span></Line> },
-    { delay: 180, node: <Line key="c9"><span className="t-dim">    {about.thesis}</span></Line> },
+    { delay: 180, node: <Line key="c9"><span className="t-dim">    {t('about_thesis')}</span></Line> },
     { delay: 200, node: <Line key="c10"><span className="t-green">{t('term_research_pub')}</span></Line> },
 
     { delay: 500, node: <Blank key="b2" /> },
@@ -66,7 +65,7 @@ function buildScript(t) {
     { delay: 500, node: <Blank key="b3" /> },
 
     { delay: 0,   node: <Line key="c17">{PROMPT_EL}<span className="t-cmd">echo $FOCUS</span></Line> },
-    { delay: 700, node: <Line key="c18"><span className="t-orange">{t('term_focus_prompt')}</span>  <span className="t-white">{about.focus}</span></Line> },
+    { delay: 700, node: <Line key="c18"><span className="t-orange">{t('term_focus_prompt')}</span>  <span className="t-white">{t('about_focus')}</span></Line> },
 
     { delay: 400, node: <Blank key="b4" /> },
     { delay: 0,   node: <Line key="c19"><span className="t-dim">{t('term_prompt_end')} <span className="t-green">{t('term_prompt_help')}</span> {t('term_prompt_end2')}</span></Line> },

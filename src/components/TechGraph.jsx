@@ -4,6 +4,7 @@ import { forceCollide } from 'd3-force-3d';
 import { CircleStackIcon, XMarkIcon, FunnelIcon, CursorArrowRaysIcon } from '@heroicons/react/24/outline';
 import { graphData } from '../data/portfolioData';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import ScrollReveal from './ScrollReveal';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -75,7 +76,7 @@ function drawNode(node, ctx, globalScale, selectedId, colors) {
 }
 
 // ─── FilterBar ───────────────────────────────────────────────────────────────
-function FilterBar({ groups, active, onToggle, colors }) {
+function FilterBar({ groups, active, onToggle, colors, t }) {
   return (
     <div className="flex gap-1.5 sm:gap-2">
       {groups.map(g => {
@@ -92,7 +93,7 @@ function FilterBar({ groups, active, onToggle, colors }) {
             }`}
             style={on ? { borderColor: gs.stroke, background: gs.fill + '30', color: gs.fill } : {}}
             aria-pressed={on}
-            aria-label={`Filtrar ${gs.label ?? g}`}
+            aria-label={`${t('stack_filter_aria')} ${gs.label ?? g}`}
           >
             <span
               className="inline-block w-2 h-2 rounded-full mr-1 sm:mr-1.5 align-middle"
@@ -129,13 +130,13 @@ function Legend({ groups, colors }) {
 }
 
 // ─── SkillPanel ──────────────────────────────────────────────────────────────
-function SkillPanel({ node, links, nodes, onClose, colors }) {
+function SkillPanel({ node, links, nodes, onClose, colors, t }) {
   if (!node) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center opacity-50 gap-3 text-center px-4">
         <CursorArrowRaysIcon className="w-12 h-12 text-metal-500" />
         <p className="text-[0.8rem] font-medium text-metal-400 leading-relaxed">
-          Haz clic en un nodo del grafo para explorar los detalles de cada tecnología.
+          {t('stack_panel_empty')}
         </p>
       </div>
     );
@@ -168,22 +169,22 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
             className="inline-block px-2.5 py-0.5 rounded-full text-[0.62rem] font-bold uppercase tracking-[0.08em] border"
             style={{ background: gs.fill + '20', borderColor: gs.stroke + '60', color: gs.fill }}
           >
-            {node.category}
+            {t(node.catKey) ?? node.catKey}
           </span>
         </div>
         <button
           onClick={onClose}
           className="bg-metal-800 hover:bg-red-900/40 hover:text-red-400 text-metal-400 rounded-full w-7 h-7 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
-          aria-label="Cerrar panel"
+          aria-label={t('stack_panel_close')}
         >
           <XMarkIcon className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Description */}
-      {node.description && (
+      {node.descKey && (
         <p className="text-[0.78rem] text-metal-300/90 leading-relaxed">
-          {node.description}
+          {t(node.descKey)}
         </p>
       )}
 
@@ -191,7 +192,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
       <div className="bg-metal-800/50 p-4 rounded-xl border border-metal-700/50">
         <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-          Nivel de dominio
+          {t('stack_skill_level')}
         </p>
         <SkillMeter level={node.level ?? 3} color={gs.fill} />
       </div>
@@ -200,7 +201,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
       {connectedOut.length > 0 && (
         <div>
           <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
-            <span className="text-[var(--accent)]">→</span> Conecta con
+            <span className="text-[var(--accent)]">→</span> {t('stack_connects_to')}
           </p>
           <div className="flex flex-col gap-2">
             {connectedOut.map(n => {
@@ -213,7 +214,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
                     aria-hidden="true"
                   />
                   <span className="text-[0.78rem] font-semibold text-metal-200">{n.name}</span>
-                  <span className="ml-auto text-[0.6rem] font-mono text-metal-500">{n.category}</span>
+                  <span className="ml-auto text-[0.6rem] font-mono text-metal-500">{t(n.catKey) ?? n.catKey}</span>
                 </div>
               );
             })}
@@ -225,7 +226,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
       {connectedIn.length > 0 && (
         <div>
           <p className="text-[0.62rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-3 flex items-center gap-1.5">
-            <span style={{ color: colors.db?.fill ?? '#b0c4e8' }}>←</span> Influenciado por
+            <span style={{ color: colors.db?.fill ?? '#b0c4e8' }}>←</span> {t('stack_influenced_by')}
           </p>
           <div className="flex flex-col gap-2">
             {connectedIn.map(n => {
@@ -238,7 +239,7 @@ function SkillPanel({ node, links, nodes, onClose, colors }) {
                     aria-hidden="true"
                   />
                   <span className="text-[0.78rem] font-semibold text-metal-200">{n.name}</span>
-                  <span className="ml-auto text-[0.6rem] font-mono text-metal-500">{n.category}</span>
+                  <span className="ml-auto text-[0.6rem] font-mono text-metal-500">{t(n.catKey) ?? n.catKey}</span>
                 </div>
               );
             })}
@@ -254,12 +255,29 @@ export default function TechGraph() {
   const graphRef = useRef();
   const containerRef = useRef();
   const { isDark } = useTheme();
+  const { t, language } = useLanguage();
 
   const [selectedNode, setSelectedNode] = useState(null);
   const [activeGroups, setActiveGroups] = useState(new Set());
   const [dimensions, setDimensions] = useState({ w: 700, h: 500 });
 
   const colors = isDark ? graphData.groupColorsDark : graphData.groupColorsLight;
+  /* Localise the group labels at render time */
+  const localizedColors = useMemo(() => {
+    const catMap = {
+      core:     t('node_cat_profile'),
+      frontend: t('node_cat_frontend'),
+      backend:  t('node_cat_backend'),
+      db:       t('node_cat_db'),
+      graph:    t('node_cat_ia'),
+      devops:   t('node_cat_devops'),
+      design:   t('node_cat_design'),
+    };
+    const base = isDark ? graphData.groupColorsDark : graphData.groupColorsLight;
+    return Object.fromEntries(
+      Object.entries(base).map(([key, val]) => [key, { ...val, label: catMap[key] ?? val.label }])
+    );
+  }, [isDark, language]); // eslint-disable-line react-hooks/exhaustive-deps
   const linkColor = isDark ? '#4a5c78' : '#cbd5e1';
   const arrowColor = isDark ? '#697a9b' : '#94a3b8';
 
@@ -332,7 +350,7 @@ export default function TechGraph() {
     <section
       id="stack"
       className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1100px] mx-auto"
-      aria-label="Stack tecnológico"
+      aria-label={t('stack_section_label')}
     >
       {/* Section header */}
       <ScrollReveal>
@@ -341,7 +359,7 @@ export default function TechGraph() {
             // TECH_GRAPH
           </div>
           <h2 className="text-[1.6rem] sm:text-[1.8rem] font-bold tracking-[-0.02em] text-metal-100">
-            Mi Stack Tecnológico
+            {t('stack_heading')}
           </h2>
         </div>
       </ScrollReveal>
@@ -351,9 +369,9 @@ export default function TechGraph() {
         <div className="flex items-center gap-3 sm:gap-4 mb-4 bg-metal-800/40 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-metal-700/40 overflow-x-auto">
           <span className="text-[0.62rem] sm:text-[0.68rem] font-bold text-metal-400 uppercase tracking-[0.1em] flex items-center gap-1.5 shrink-0">
             <FunnelIcon className="w-3.5 h-3.5" />
-            Filtros:
+            {t('stack_filters_label')}
           </span>
-          <FilterBar groups={allGroups} active={activeGroups} onToggle={toggleGroup} colors={colors} />
+          <FilterBar groups={allGroups} active={activeGroups} onToggle={toggleGroup} colors={localizedColors} t={t} />
         </div>
       </ScrollReveal>
 
@@ -370,13 +388,13 @@ export default function TechGraph() {
               <div className="flex items-center gap-2 sm:gap-2.5">
                 <CircleStackIcon className="w-4 h-4 text-metal-400" />
                 <span className="font-mono text-[0.65rem] sm:text-[0.72rem] font-semibold text-metal-300 uppercase tracking-[0.08em]">
-                  Grafo de Tecnologías
+                  {t('stack_graph_header')}
                 </span>
               </div>
               <span className="font-mono text-[0.58rem] sm:text-[0.65rem] text-metal-500 flex items-center gap-1.5">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" aria-hidden="true" />
-                <span className="hidden sm:inline">Click en un nodo para explorar</span>
-                <span className="sm:hidden">Toca un nodo</span>
+                <span className="hidden sm:inline">{t('stack_graph_hint')}</span>
+                <span className="sm:hidden">{t('stack_graph_hint_mob')}</span>
               </span>
             </div>
 
@@ -406,7 +424,7 @@ export default function TechGraph() {
 
             {/* Legend */}
             <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
-              <Legend groups={allGroups} colors={colors} />
+              <Legend groups={allGroups} colors={localizedColors} />
             </div>
           </div>
 
@@ -418,14 +436,15 @@ export default function TechGraph() {
           >
             <h3 className="text-[0.72rem] font-bold text-metal-400 uppercase tracking-[0.1em] mb-5 flex items-center gap-2 pb-3 border-b border-metal-700/40">
               <CircleStackIcon className="w-4 h-4" />
-              Explorador de Skill
+              {t('stack_panel_title')}
             </h3>
             <SkillPanel
               node={selectedNode}
               links={filteredData.links}
               nodes={filteredData.nodes}
               onClose={() => setSelectedNode(null)}
-              colors={colors}
+              colors={localizedColors}
+              t={t}
             />
           </div>
         </div>

@@ -80,6 +80,9 @@ function StatCard({ stat, index }) {
   );
 }
 
+/* Stat label keys mapped by index */
+const statLabelKeys = ['hero_stat_projects', 'hero_stat_tech', 'hero_stat_research'];
+
 export default function Hero() {
   const { t } = useLanguage();
 
@@ -87,7 +90,7 @@ export default function Hero() {
     <section
       id="hero"
       className="min-h-screen flex items-center pt-[60px] relative overflow-hidden"
-      aria-label="Presentación"
+      aria-label={t('hero_section_label')}
     >
       <div className="max-w-[1000px] mx-auto px-5 sm:px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center py-12 md:py-0">
 
@@ -96,7 +99,7 @@ export default function Hero() {
           {/* Eyebrow */}
           <ScrollReveal delay={1}>
             <div className="eyebrow-line font-mono text-[0.72rem] text-metal-300 tracking-[0.18em] uppercase mb-6 flex items-center justify-center md:justify-start">
-              {personalInfo.eyebrow}
+              {t('hero_eyebrow')}
             </div>
           </ScrollReveal>
 
@@ -112,14 +115,14 @@ export default function Hero() {
           {/* Title */}
           <ScrollReveal delay={3}>
             <p className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-metal-300 mb-8">
-              {personalInfo.title}
+              {t('hero_title')}
             </p>
           </ScrollReveal>
 
           {/* Description */}
           <ScrollReveal delay={4}>
             <p className="text-[0.85rem] sm:text-[0.9rem] text-metal-300/80 max-w-[480px] leading-[1.8] mb-10 mx-auto md:mx-0">
-              {personalInfo.description}
+              {t('hero_description')}
             </p>
           </ScrollReveal>
 
@@ -146,7 +149,7 @@ export default function Hero() {
           {/* ── Stats ── */}
           <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-10 sm:mt-14">
             {personalInfo.stats.map((stat, idx) => (
-              <StatCard key={idx} stat={stat} index={idx} />
+              <StatCard key={idx} stat={{ ...stat, label: t(statLabelKeys[idx]) }} index={idx} />
             ))}
           </div>
         </div>

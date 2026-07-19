@@ -112,7 +112,7 @@ export default function Contact() {
                 required
                 value={formState.email}
                 onChange={handleChange}
-                placeholder="tu@email.com"
+              placeholder={t('contact_placeholder_email')}
                 className="contact-input"
               />
             </div>
