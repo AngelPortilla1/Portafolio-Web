@@ -89,6 +89,24 @@ export default function Footer() {
 
       <div className="relative max-w-[1000px] mx-auto px-5 sm:px-8 py-12 sm:py-16">
 
+        {/* ── Back to top ── */}
+        <div className="flex justify-center mb-8">
+          <a
+            href="#hero"
+            className="group flex flex-col items-center gap-2 no-underline"
+            aria-label={t('footer_back_top') ?? 'Back to top'}
+          >
+            <div className="w-10 h-10 rounded-full border border-metal-700/60 bg-metal-800/60 flex items-center justify-center transition-all duration-300 group-hover:border-[rgba(var(--accent-rgb),0.5)] group-hover:bg-[rgba(var(--accent-rgb),0.08)] group-hover:-translate-y-1 group-hover:shadow-[0_0_16px_rgba(var(--accent-rgb),0.25)]">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-metal-400 group-hover:text-[var(--accent)] transition-colors duration-300" aria-hidden="true">
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            </div>
+            <span className="font-mono text-[0.58rem] text-metal-600 group-hover:text-[var(--accent)] transition-colors duration-300 uppercase tracking-[0.14em]">
+              {t('footer_back_top') ?? 'Back to top'}
+            </span>
+          </a>
+        </div>
+
         {/* ── Main grid ── */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-12 mb-10">
 

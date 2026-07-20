@@ -10,6 +10,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const NAV_LINKS = [
     { href: '#about',    labelKey: 'nav_about' },
@@ -21,6 +22,10 @@ export default function Navbar() {
   /* ── Scroll effects: shrink + active section detection ── */
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 20);
+
+    // Scroll progress bar
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    setScrollProgress(docHeight > 0 ? Math.min((window.scrollY / docHeight) * 100, 100) : 0);
 
     // Detect active section
     const sections = NAV_LINKS.map(l => l.href.replace('#', ''));
@@ -73,6 +78,17 @@ export default function Navbar() {
       role="navigation"
       aria-label={t('nav_ariaLabel')}
     >
+      {/* ── Scroll progress bar ── */}
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-0 h-[2px] transition-all duration-150 ease-out"
+        style={{
+          width: `${scrollProgress}%`,
+          background: 'linear-gradient(90deg, var(--accent), var(--accent-bright))',
+          opacity: scrollProgress > 0 ? 1 : 0,
+          boxShadow: '0 0 8px rgba(var(--accent-rgb), 0.6)',
+        }}
+      />
       <div className="h-[60px] flex items-center justify-between px-6 sm:px-8 bg-metal-900/90 backdrop-blur-md border-b border-metal-700/50 transition-colors duration-300">
         {/* Logo */}
         <a

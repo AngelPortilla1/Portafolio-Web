@@ -83,8 +83,36 @@ function StatCard({ stat, index }) {
 /* Stat label keys mapped by index */
 const statLabelKeys = ['hero_stat_projects', 'hero_stat_tech', 'hero_stat_research'];
 
+/* ── Typewriter hook ── */
+function useTypewriter(text, speed = 45, startDelay = 900) {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone]           = useState(false);
+
+  useEffect(() => {
+    setDisplayed('');
+    setDone(false);
+    let i = 0;
+    const startTimer = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+      return () => clearInterval(interval);
+    }, startDelay);
+    return () => clearTimeout(startTimer);
+  }, [text, speed, startDelay]);
+
+  return { displayed, done };
+}
+
 export default function Hero() {
   const { t } = useLanguage();
+  const titleText = t('hero_title');
+  const { displayed, done } = useTypewriter(titleText, 40, 1000);
 
   return (
     <section
@@ -112,10 +140,17 @@ export default function Hero() {
             </h1>
           </ScrollReveal>
 
-          {/* Title */}
+          {/* Title — typewriter effect */}
           <ScrollReveal delay={3}>
-            <p className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-metal-300 mb-8">
-              {t('hero_title')}
+            <p className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-metal-300 mb-8 min-h-[1.5em]">
+              {displayed}
+              {!done && (
+                <span
+                  className="inline-block w-[2px] h-[1em] bg-[var(--accent)] ml-0.5 align-middle"
+                  style={{ animation: 'terminal-blink 1s step-end infinite' }}
+                  aria-hidden="true"
+                />
+              )}
             </p>
           </ScrollReveal>
 
@@ -185,6 +220,29 @@ export default function Hero() {
           </ScrollReveal>
         </div>
       </div>
+
+      {/* ── Scroll indicator ── */}
+      <a
+        href="#about"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 group no-underline"
+        aria-label="Scroll down"
+        style={{ animation: 'hero-scroll-fade 2s ease-in-out 1.5s both' }}
+      >
+        <span className="font-mono text-[0.58rem] text-metal-500 uppercase tracking-[0.18em] group-hover:text-[var(--accent)] transition-colors duration-300">
+          scroll
+        </span>
+        <span
+          className="flex flex-col items-center"
+          style={{ animation: 'hero-scroll-bounce 1.6s ease-in-out infinite' }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-metal-500 group-hover:text-[var(--accent)] transition-colors duration-300" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-metal-500/50 group-hover:text-[rgba(var(--accent-rgb),0.5)] transition-colors duration-300 -mt-2" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </span>
+      </a>
     </section>
   );
 }

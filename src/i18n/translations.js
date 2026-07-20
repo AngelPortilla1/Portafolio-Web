@@ -152,7 +152,9 @@ const translations = {
     contact_placeholder_email:   'tu@email.com',
     contact_placeholder_message: 'Cuéntame sobre tu proyecto o idea...',
     contact_btn_send:            'Enviar mensaje',
-    contact_btn_sent:            '¡Mensaje preparado!',
+    contact_btn_sent:            '¡Mensaje enviado!',
+    contact_btn_sending:         'Enviando…',
+    contact_btn_error:           'Error — intenta de nuevo',
     contact_subject:             'Contacto desde portafolio —',
     contact_body_greeting:       'Hola Angel,\n\nSoy',
     contact_body_closing:        '\n\nSaludos.',
@@ -168,6 +170,7 @@ const translations = {
     footer_nav_projects: 'Proyectos',
     footer_nav_stack:    'Stack',
     footer_nav_contact:  'Contacto',
+    footer_back_top:     'Volver arriba',
   },
 
   en: {
@@ -317,7 +320,9 @@ const translations = {
     contact_placeholder_email:   'you@email.com',
     contact_placeholder_message: 'Tell me about your project or idea...',
     contact_btn_send:            'Send message',
-    contact_btn_sent:            'Message ready!',
+    contact_btn_sent:            'Message sent!',
+    contact_btn_sending:         'Sending…',
+    contact_btn_error:           'Error — try again',
     contact_subject:             'Portfolio contact —',
     contact_body_greeting:       "Hi Angel,\n\nI'm",
     contact_body_closing:        '\n\nBest regards.',
@@ -333,6 +338,7 @@ const translations = {
     footer_nav_projects: 'Projects',
     footer_nav_stack:    'Stack',
     footer_nav_contact:  'Contact',
+    footer_back_top:     'Back to top',
   },
 };
 
