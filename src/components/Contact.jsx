@@ -16,8 +16,8 @@ import { useLanguage } from '../context/LanguageContext';
    2. Create a new form and copy the endpoint ID (e.g. "xpwzabcd")
    3. Replace 'YOUR_FORM_ID' with your real form ID
    ─────────────────────────────────────────────────────────────────── */
-const FORMSPREE_URL = 'https://formspree.io/f/YOUR_FORM_ID';
-const IS_FORMSPREE_CONFIGURED = !FORMSPREE_URL.includes('YOUR_FORM_ID');
+const FORMSPREE_URL = 'https://formspree.io/f/xpqvrqno';
+const IS_FORMSPREE_CONFIGURED = !FORMSPREE_URL.includes('xpqvrqno');
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -146,7 +146,7 @@ export default function Contact() {
                 required
                 value={formState.email}
                 onChange={handleChange}
-              placeholder={t('contact_placeholder_email')}
+                placeholder={t('contact_placeholder_email')}
                 className="contact-input"
               />
             </div>
@@ -170,13 +170,12 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === 'loading' || status === 'success'}
-              className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-[0.85rem] font-bold rounded-lg tracking-[0.03em] transition-all duration-200 cursor-pointer disabled:cursor-not-allowed ${
-                status === 'success'
-                  ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
-                  : status === 'error'
+              className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-[0.85rem] font-bold rounded-lg tracking-[0.03em] transition-all duration-200 cursor-pointer disabled:cursor-not-allowed ${status === 'success'
+                ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
+                : status === 'error'
                   ? 'bg-red-600/20 text-red-400 border border-red-500/30'
                   : 'bg-[var(--accent)] text-[var(--accent-on)] hover:bg-[var(--accent-bright)] hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(var(--accent-rgb),0.4)]'
-              }`}
+                }`}
             >
               {status === 'loading' ? (
                 <>
