@@ -422,9 +422,9 @@ export default function TechGraph() {
               onNodeClick={handleNodeClick}
               onBackgroundClick={handleBgClick}
               onNodeHover={(node) => {
-                // Change canvas cursor on hover
-                const canvas = graphRef.current?.renderer()?.domElement;
-                if (canvas) canvas.style.cursor = node ? 'pointer' : 'grab';
+                if (containerRef.current) {
+                  containerRef.current.style.cursor = node ? 'pointer' : 'grab';
+                }
               }}
               cooldownTicks={120}
               enableZoomInteraction={true}
