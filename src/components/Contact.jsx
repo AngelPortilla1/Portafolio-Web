@@ -5,10 +5,19 @@ import {
   LinkIcon,
   PaperAirplaneIcon,
   CheckCircleIcon,
+  ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { personalInfo } from '../data/portfolioData';
 import ScrollReveal from './ScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
+
+/* ── Formspree endpoint ───────────────────────────────────────────────
+   1. Create a free account at https://formspree.io
+   2. Create a new form and copy the endpoint ID (e.g. "xpwzabcd")
+   3. Replace 'YOUR_FORM_ID' with your real form ID
+   ─────────────────────────────────────────────────────────────────── */
+const FORMSPREE_URL = 'https://formspree.io/f/YOUR_FORM_ID';
+const IS_FORMSPREE_CONFIGURED = !FORMSPREE_URL.includes('YOUR_FORM_ID');
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -17,20 +26,45 @@ export default function Contact() {
     email: '',
     message: '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
 
   const handleChange = (e) => {
     setFormState(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, message } = formState;
-    const subject = encodeURIComponent(`${t('contact_subject')} ${name}`);
-    const body = encodeURIComponent(`${t('contact_body_greeting')} ${name} (${email}).${t('contact_body_closing')}\n\n${message}`);
-    window.open(`mailto:${personalInfo.contact.email}?subject=${subject}&body=${body}`, '_self');
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+
+    if (!IS_FORMSPREE_CONFIGURED) {
+      // Fallback: open mailto client
+      const { name, email, message } = formState;
+      const subject = encodeURIComponent(`${t('contact_subject')} ${name}`);
+      const body = encodeURIComponent(`${t('contact_body_greeting')} ${name} (${email}).${t('contact_body_closing')}\n\n${message}`);
+      window.open(`mailto:${personalInfo.contact.email}?subject=${subject}&body=${body}`, '_self');
+      setStatus('success');
+      setTimeout(() => setStatus('idle'), 4000);
+      return;
+    }
+
+    setStatus('loading');
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formState }),
+      });
+      if (res.ok) {
+        setStatus('success');
+        setFormState({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 4000);
+      }
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
   };
 
   const contactLinks = [
@@ -135,12 +169,32 @@ export default function Contact() {
 
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--accent)] text-[var(--accent-on)] text-[0.85rem] font-bold rounded-lg tracking-[0.03em] transition-all duration-200 hover:bg-[var(--accent-bright)] hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(var(--accent-rgb),0.4)] cursor-pointer"
+              disabled={status === 'loading' || status === 'success'}
+              className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-[0.85rem] font-bold rounded-lg tracking-[0.03em] transition-all duration-200 cursor-pointer disabled:cursor-not-allowed ${
+                status === 'success'
+                  ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
+                  : status === 'error'
+                  ? 'bg-red-600/20 text-red-400 border border-red-500/30'
+                  : 'bg-[var(--accent)] text-[var(--accent-on)] hover:bg-[var(--accent-bright)] hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(var(--accent-rgb),0.4)]'
+              }`}
             >
-              {submitted ? (
+              {status === 'loading' ? (
+                <>
+                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  {t('contact_btn_sending') ?? 'Enviando…'}
+                </>
+              ) : status === 'success' ? (
                 <>
                   <CheckCircleIcon className="w-5 h-5" />
                   {t('contact_btn_sent')}
+                </>
+              ) : status === 'error' ? (
+                <>
+                  <ExclamationCircleIcon className="w-5 h-5" />
+                  {t('contact_btn_error') ?? 'Error — intenta de nuevo'}
                 </>
               ) : (
                 <>

@@ -408,7 +408,7 @@ export default function TechGraph() {
               graphData={filteredData}
               width={dimensions.w}
               height={dimensions.h}
-              nodeLabel={() => ''}
+              nodeLabel={(n) => `${n.name} — ${t(n.catKey) ?? n.group}`}
               nodeColor={n => (colors[n.group] ?? colors.frontend).fill}
               nodeRelSize={1}
               nodeVal={n => (n.__r ?? 14) * (n.__r ?? 14)}
@@ -421,6 +421,11 @@ export default function TechGraph() {
               linkDirectionalArrowColor={() => arrowColor}
               onNodeClick={handleNodeClick}
               onBackgroundClick={handleBgClick}
+              onNodeHover={(node) => {
+                // Change canvas cursor on hover
+                const canvas = graphRef.current?.renderer()?.domElement;
+                if (canvas) canvas.style.cursor = node ? 'pointer' : 'grab';
+              }}
               cooldownTicks={120}
               enableZoomInteraction={true}
               enablePanInteraction={true}
