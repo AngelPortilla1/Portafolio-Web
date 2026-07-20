@@ -86,11 +86,10 @@ function FilterBar({ groups, active, onToggle, colors, t }) {
           <button
             key={g}
             onClick={() => onToggle(g)}
-            className={`shrink-0 whitespace-nowrap px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[0.6rem] sm:text-[0.68rem] font-bold uppercase tracking-[0.06em] cursor-pointer transition-all duration-200 border ${
-              on
+            className={`shrink-0 whitespace-nowrap px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[0.6rem] sm:text-[0.68rem] font-bold uppercase tracking-[0.06em] cursor-pointer transition-all duration-200 border ${on
                 ? 'hover:-translate-y-px shadow-sm'
                 : 'bg-metal-800/60 text-metal-400 border-metal-700/50 hover:bg-metal-700/60 hover:text-metal-200'
-            }`}
+              }`}
             style={on ? { borderColor: gs.stroke, background: gs.fill + '30', color: gs.fill } : {}}
             aria-pressed={on}
             aria-label={`${t('stack_filter_aria')} ${gs.label ?? g}`}
@@ -266,13 +265,13 @@ export default function TechGraph() {
   /* Localise the group labels at render time */
   const localizedColors = useMemo(() => {
     const catMap = {
-      core:     t('node_cat_profile'),
+      core: t('node_cat_profile'),
       frontend: t('node_cat_frontend'),
-      backend:  t('node_cat_backend'),
-      db:       t('node_cat_db'),
-      graph:    t('node_cat_ia'),
-      devops:   t('node_cat_devops'),
-      design:   t('node_cat_design'),
+      backend: t('node_cat_backend'),
+      db: t('node_cat_db'),
+      graph: t('node_cat_ia'),
+      devops: t('node_cat_devops'),
+      design: t('node_cat_design'),
     };
     const base = isDark ? graphData.groupColorsDark : graphData.groupColorsLight;
     return Object.fromEntries(
