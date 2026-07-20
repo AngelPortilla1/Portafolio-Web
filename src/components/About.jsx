@@ -98,7 +98,7 @@ function getCommandResponse(cmd, ts, t) {
   ];
 
   if (c === 'cv' || c === 'resume') {
-    window.open('/Cv_AngelPortilla_current.pdf', '_blank');
+    window.open('/CV_CV_AngelPortilla_Bc.pdf', '_blank');
     return [<Line key={k('cv0')}><span className="t-green">{t('cmd_cv_opening')}</span></Line>];
   }
 
@@ -130,6 +130,8 @@ export default function About() {
   const inputRef    = useRef(null);
   const timersRef   = useRef([]);
   const startedRef  = useRef(false);
+  const historyRef  = useRef([]);   // command history
+  const histIdxRef  = useRef(-1);   // current history index (-1 = new input)
 
   const [lines, setLines]         = useState([]);
   const [inputVal, setInputVal]   = useState('');
@@ -236,8 +238,30 @@ export default function About() {
 
   const handleCommand = (e) => {
     e.preventDefault();
+    const cmd = inputVal.trim();
+    // Save to history (skip duplicates at top)
+    if (cmd && historyRef.current[0] !== cmd) {
+      historyRef.current.unshift(cmd);
+      if (historyRef.current.length > 50) historyRef.current.pop();
+    }
+    histIdxRef.current = -1;
     executeCommand(inputVal);
     setInputVal('');
+  };
+
+  /* Navigate history with arrow keys */
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const next = Math.min(histIdxRef.current + 1, historyRef.current.length - 1);
+      histIdxRef.current = next;
+      setInputVal(historyRef.current[next] ?? '');
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = Math.max(histIdxRef.current - 1, -1);
+      histIdxRef.current = next;
+      setInputVal(next === -1 ? '' : (historyRef.current[next] ?? ''));
+    }
   };
 
   const handleQuickCommand = (cmd) => {
@@ -304,6 +328,7 @@ export default function About() {
                   className="terminal-input"
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   placeholder={t('about_input_placeholder')}
                   spellCheck={false}
                   autoComplete="off"

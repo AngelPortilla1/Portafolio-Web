@@ -19,7 +19,7 @@ export const personalInfo = {
     focus:
       "Actualmente busco colaborar en proyectos open source y desarrollar soluciones que combinen desarrollo Full Stack con inteligencia artificial. Abierto a nuevos retos y siempre aprendiendo 📚",
   },
-  cvPath: "/CV_AngelPortilla_Bc.pdf",  // ← Cambia solo este nombre al actualizar tu CV
+  cvPath: "/CV_CV_AngelPortilla_Bc.pdf",  // ← Cambia solo este nombre al actualizar tu CV
   contact: {
     email: "angelportihernan019@gmail.com",
     github: "https://github.com/AngelPortilla1",

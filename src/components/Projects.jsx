@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
   FolderOpenIcon,
   CogIcon,
@@ -75,11 +75,28 @@ export default function Projects() {
     setCurrent(0);
   };
 
+  const sectionRef = useRef(null);
+
+  /* ── Keyboard navigation (arrow keys) ── */
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }); // sin deps para usar siempre los prev/next actualizados
+
   const proj = filtered[current] ?? null;
 
   return (
     <section
       id="projects"
+      ref={sectionRef}
       className="py-16 sm:py-24 px-5 sm:px-8 max-w-[1000px] mx-auto"
       aria-label={t('projects_section_label')}
     >
@@ -140,6 +157,11 @@ export default function Projects() {
             >
               <ChevronRightIcon className="w-4 h-4" />
             </button>
+            {/* Keyboard hint */}
+            <span className="hidden sm:flex items-center gap-1 font-mono text-[0.58rem] text-metal-600 ml-1 select-none" title="Use arrow keys to navigate">
+              <span className="px-1 py-0.5 rounded border border-metal-700/50 bg-metal-900 leading-none">←</span>
+              <span className="px-1 py-0.5 rounded border border-metal-700/50 bg-metal-900 leading-none">→</span>
+            </span>
           </div>
 
           {/* Slide area */}
@@ -199,7 +221,7 @@ export default function Projects() {
                         src={proj.image}
                         alt={`${t('proj_img_alt')} ${proj.title}`}
                         className="w-full h-full object-cover"
-                        loading="eager"
+                        loading="lazy"
                       />
                     ) : (
                       <span>[ {t('proj_img_placeholder')} {proj.title} ]</span>
