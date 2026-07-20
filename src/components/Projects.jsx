@@ -157,11 +157,6 @@ export default function Projects() {
             >
               <ChevronRightIcon className="w-4 h-4" />
             </button>
-            {/* Keyboard hint */}
-            <span className="hidden sm:flex items-center gap-1 font-mono text-[0.58rem] text-metal-600 ml-1 select-none" title="Use arrow keys to navigate">
-              <span className="px-1 py-0.5 rounded border border-metal-700/50 bg-metal-900 leading-none">←</span>
-              <span className="px-1 py-0.5 rounded border border-metal-700/50 bg-metal-900 leading-none">→</span>
-            </span>
           </div>
 
           {/* Slide area */}
