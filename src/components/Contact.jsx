@@ -17,7 +17,7 @@ import { useLanguage } from '../context/LanguageContext';
    3. Replace 'YOUR_FORM_ID' with your real form ID
    ─────────────────────────────────────────────────────────────────── */
 const FORMSPREE_URL = 'https://formspree.io/f/xpqvrqno';
-const IS_FORMSPREE_CONFIGURED = !FORMSPREE_URL.includes('xpqvrqno');
+const IS_FORMSPREE_CONFIGURED = !FORMSPREE_URL.includes('YOUR_FORM_ID');
 
 export default function Contact() {
   const { t } = useLanguage();
