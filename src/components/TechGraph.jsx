@@ -254,6 +254,7 @@ function SkillPanel({ node, links, nodes, onClose, colors, t }) {
 export default function TechGraph() {
   const graphRef = useRef();
   const containerRef = useRef();
+  const nodeClickRef = useRef(false); // flag to prevent bg-click from firing with node-click
   const { isDark } = useTheme();
   const { t, language } = useLanguage();
 
@@ -331,12 +332,15 @@ export default function TechGraph() {
   }, [filteredData]);
 
   const handleNodeClick = useCallback((node) => {
+    nodeClickRef.current = true;
     setSelectedNode(node);
-    graphRef.current?.centerAt(node.x, node.y, 600);
-    graphRef.current?.zoom(2.5, 600);
+    graphRef.current?.centerAt(node.x, node.y, 400);
+    // Reset flag after a short delay so bg-click doesn't steal the event
+    setTimeout(() => { nodeClickRef.current = false; }, 300);
   }, []);
 
   const handleBgClick = useCallback(() => {
+    if (nodeClickRef.current) return; // ignore bg-click fired together with node-click
     setSelectedNode(null);
   }, []);
 
