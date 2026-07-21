@@ -36,7 +36,7 @@ const socialLinks = [
   },
 ];
 
-const techStack = ['React', 'Vite', 'Tailwind CSS', 'Python'];
+const techStack = ['React', 'Vite', 'Tailwind CSS'];
 
 export default function Footer() {
   const { t } = useLanguage();
